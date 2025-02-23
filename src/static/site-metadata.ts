@@ -12,7 +12,7 @@ interface ISiteMetadataResult {
 const data: ISiteMetadataResult = {
   siteTitle: 'Running Page',
   siteUrl: 'https://helloo2020.github.io/running-Tim/',
-  logo: 'duola.png',
+  logo: 'https://github.com/helloo2020/running_page/blob/master/src/static/duola.png',
   description: 'My running page',
   navLinks: [
     {
