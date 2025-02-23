@@ -11,13 +11,13 @@ interface ISiteMetadataResult {
 
 const data: ISiteMetadataResult = {
   siteTitle: 'Running Page',
-  siteUrl: 'https://helloo2020.github.io/Running-Tim/',
-  logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTtc69JxHNcmN1ETpMUX4dozAgAN6iPjWalQ&usqp=CAU',
-  description: 'Personal site and blog',
+  siteUrl: 'https://helloo2020.github.io/running-Tim/',
+  logo: 'duola.png',
+  description: 'My running page',
   navLinks: [
     {
       name: 'Blog',
-      url: 'https://helloo2020.github.io/Running-Tim/',
+      url: 'https://helloo2020.github.io/',
     },
     {
       name: 'About',
