@@ -16,7 +16,7 @@ const getBasePath = () => {
 
 const data: ISiteMetadataResult = {
   siteTitle: 'Running Page',
-  siteUrl: 'https://helloo2020.github.io/',
+  siteUrl: 'https://run.scond.me/',
   logo: 'https://raw.githubusercontent.com/helloo2020/running_page/master/src/static/duola.png',
   description: 'My running page',
   navLinks: [
