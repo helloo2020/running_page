@@ -121,6 +121,21 @@ const RunMap = ({
     width: '100%',
     height: MAP_HEIGHT,
   };
+  const mapStyle = MAPBOX_TOKEN
+    ? 'mapbox://styles/mapbox/dark-v10'
+    : {
+        version: 8 as const,
+        sources: {},
+        layers: [
+          {
+            id: 'background',
+            type: 'background' as const,
+            paint: {
+              'background-color': '#1a1a1a',
+            },
+          },
+        ],
+      };
   const fullscreenButton: React.CSSProperties = {
     position: 'absolute',
     marginTop: '29.2px',
@@ -145,9 +160,9 @@ const RunMap = ({
       {...viewState}
       onMove={onMove}
       style={style}
-      mapStyle="mapbox://styles/mapbox/dark-v10"
+      mapStyle={mapStyle}
       ref={mapRefCallback}
-      mapboxAccessToken={MAPBOX_TOKEN}
+      mapboxAccessToken={MAPBOX_TOKEN || undefined}
     >
       <RunMapButtons changeYear={changeYear} thisYear={thisYear} />
       <Source id="data" type="geojson" data={geoData}>
