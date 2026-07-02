@@ -1,9 +1,5 @@
 // const
-const MAPBOX_TOKEN =
-  // For security reasons, please avoid using the default public token provided by Mapbox as much as possible.
-  // Instead, manually add a new token and apply URL restrictions.
-  // (please refer to https://github.com/yihong0618/running_page/issues/643#issuecomment-2042668580)
-  'pk.eyJ1IjoiemVuanVyeSIsImEiOiJjbWlzaWJjaHgwMnJ6M2Nwdmw4YTlnMnMzIn0.YfU_a3gP0WWhww_M34_Rug';
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || '';
 const MUNICIPALITY_CITIES_ARR = [
   '北京市',
   '上海市',
@@ -149,14 +145,12 @@ export {
 };
 
 const nike = 'rgb(224,237,94)'; // if you want change the main color change here src/styles/variables.scss
-const dark_vanilla = 'rgb(228,212,220)';
-
 // If your map has an offset please change this line
 // issues #92 and #198
 export const NEED_FIX_MAP = false;
 export const MAIN_COLOR = nike;
-export const PROVINCE_FILL_COLOR = '#47b8e0';
-export const COUNTRY_FILL_COLOR = dark_vanilla;
+export const PROVINCE_FILL_COLOR = MAIN_COLOR;
+export const COUNTRY_FILL_COLOR = MAIN_COLOR;
 
 export const RUN_COLOR = MAIN_COLOR;
 export const RUN_TRAIL_COLOR = 'rgb(255,153,51)';

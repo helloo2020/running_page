@@ -156,6 +156,7 @@ const RunMap = ({
           type="fill"
           paint={{
             'fill-color': PROVINCE_FILL_COLOR,
+            'fill-opacity': 0.85,
           }}
           filter={filterProvinces}
         />
@@ -165,7 +166,18 @@ const RunMap = ({
           paint={{
             'fill-color': COUNTRY_FILL_COLOR,
             // in China, fill a bit lighter while already filled provinces
-            'fill-opacity': ["case", ["==", ["get", "name"], '中国'], 0.1, 0.5],
+            'fill-opacity': ["case", ["==", ["get", "name"], '中国'], 0.12, 0.85],
+          }}
+          filter={filterCountries}
+        />
+        <Layer
+          id="country-outline"
+          type="line"
+          paint={{
+            'line-color': COUNTRY_FILL_COLOR,
+            'line-width': 2,
+            'line-opacity': ["case", ["==", ["get", "name"], '中国'], 0.25, 1],
+            'line-blur': 0.4,
           }}
           filter={filterCountries}
         />
