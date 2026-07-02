@@ -1,13 +1,9 @@
-import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import React, {useRef, useCallback, useState, useEffect} from 'react';
-import Map, {Layer, Source, FullscreenControl, NavigationControl, MapRef} from 'react-map-gl';
-import {MapInstance} from "react-map-gl/src/types/lib";
+import Map, {Layer, Source, FullscreenControl, NavigationControl, MapRef} from 'react-map-gl/maplibre';
+import type {Map as MapLibreMap} from 'maplibre-gl';
 import useActivities from '@/hooks/useActivities';
 import {
-  MAP_LAYER_LIST,
   IS_CHINESE,
-  ROAD_LABEL_DISPLAY,
-  MAPBOX_TOKEN,
   PROVINCE_FILL_COLOR,
   COUNTRY_FILL_COLOR,
   USE_DASH_LINE,
@@ -22,6 +18,7 @@ import RunMapButtons from './RunMapButtons';
 import styles from './style.module.css';
 import { FeatureCollection } from 'geojson';
 import { RPGeometry } from '@/static/run_countries';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import './mapbox.css';
 import LightsControl from "@/components/RunMap/LightsControl";
 
@@ -34,21 +31,19 @@ interface IRunMapProps {
   thisYear: string;
 }
 
-const MAP_STYLE = MAPBOX_TOKEN
-  ? 'mapbox://styles/mapbox/dark-v10'
-  : {
-      version: 8,
-      sources: {},
-      layers: [
-        {
-          id: 'background',
-          type: 'background',
-          paint: {
-            'background-color': '#1a1a1a',
-          },
-        },
-      ],
-    };
+const MAP_STYLE = {
+  version: 8,
+  sources: {},
+  layers: [
+    {
+      id: 'background',
+      type: 'background',
+      paint: {
+        'background-color': '#1a1a1a',
+      },
+    },
+  ],
+} as const;
 
 const RunMap = ({
   title,
@@ -61,10 +56,10 @@ const RunMap = ({
   const { countries, provinces } = useActivities();
   const mapRef = useRef<MapRef>();
   const [lights, setLights] = useState(PRIVACY_MODE ? false : LIGHTS_ON);
-  const keepWhenLightsOff = ['runs2']
-  function switchLayerVisibility(map: MapInstance, lights: boolean) {
+  const keepWhenLightsOff = ['background', 'runs2']
+  function switchLayerVisibility(map: MapLibreMap, lights: boolean) {
     const styleJson = map.getStyle();
-    styleJson.layers.forEach((it: { id: string; }) => {
+    styleJson.layers.forEach((it) => {
       if (!keepWhenLightsOff.includes(it.id)) {
         if (lights)
           map.setLayoutProperty(it.id, 'visibility', 'visible');
@@ -77,17 +72,9 @@ const RunMap = ({
     (ref: MapRef) => {
       if (ref !== null) {
         const map = ref.getMap();
-        if (map && IS_CHINESE) {
-            map.addControl(new MapboxLanguage({defaultLanguage: 'zh-Hans'}));
-        }
         // all style resources have been downloaded
         // and the first visually complete rendering of the base style has occurred.
         map.on('style.load', () => {
-          if (!ROAD_LABEL_DISPLAY) {
-            MAP_LAYER_LIST.forEach((layerId) => {
-              map.removeLayer(layerId);
-            });
-          }
           mapRef.current = ref;
           switchLayerVisibility(map, lights);
         });
@@ -163,7 +150,6 @@ const RunMap = ({
       style={style}
       mapStyle={MAP_STYLE}
       ref={mapRefCallback}
-      mapboxAccessToken={MAPBOX_TOKEN}
     >
       <RunMapButtons changeYear={changeYear} thisYear={thisYear} />
       <Source id="data" type="geojson" data={geoData}>
