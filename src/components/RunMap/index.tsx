@@ -156,9 +156,12 @@ const polygonPathForFeature = (
   return '';
 };
 
+const clampZoom = (zoom: number): number => Math.min(Math.max(zoom, 1), 16);
+
 const StaticRunMap = ({
   title,
   viewState,
+  setViewState,
   changeYear,
   geoData,
   thisYear,
@@ -186,6 +189,36 @@ const StaticRunMap = ({
     position: 'relative',
     overflow: 'hidden',
     backgroundColor: '#1a1a1a',
+  };
+  const controlsStyle: React.CSSProperties = {
+    position: 'absolute',
+    right: 10,
+    bottom: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    borderRadius: 4,
+    opacity: 0.55,
+  };
+  const controlButtonStyle: React.CSSProperties = {
+    width: 29,
+    height: 29,
+    border: 0,
+    borderBottom: '1px solid rgba(0, 0, 0, 0.35)',
+    background: '#ffffff',
+    color: '#1a1a1a',
+    cursor: 'pointer',
+    fontSize: 18,
+    fontWeight: 700,
+    lineHeight: '29px',
+    padding: 0,
+  };
+  const updateZoom = (delta: number) => {
+    const zoom = clampZoom((viewState.zoom ?? 3) + delta);
+    setViewState({
+      ...viewState,
+      zoom,
+    });
   };
   const project = createStaticProjector(geoData, MAP_HEIGHT, viewState);
   const provinceSet = new Set(provinces);
@@ -256,6 +289,24 @@ const StaticRunMap = ({
         )}
       </svg>
       <span className={styles.runTitle}>{title}</span>
+      <div aria-label="Map zoom controls" style={controlsStyle}>
+        <button
+          aria-label="Zoom in"
+          onClick={() => updateZoom(1)}
+          style={controlButtonStyle}
+          type="button"
+        >
+          +
+        </button>
+        <button
+          aria-label="Zoom out"
+          onClick={() => updateZoom(-1)}
+          style={{ ...controlButtonStyle, borderBottom: 0 }}
+          type="button"
+        >
+          -
+        </button>
+      </div>
     </div>
   );
 };
