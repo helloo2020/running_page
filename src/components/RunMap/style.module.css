@@ -19,11 +19,18 @@
   display: inline-block;
   position: relative;
   cursor: pointer;
-  padding: 1.3rem 0.4rem;
+  min-height: 44px;
+  padding: 0.65rem 0.4rem;
   margin-top: 0.1rem;
   font-size: 1rem;
   text-align: center;
   color: rgb(204, 204, 204);
+}
+
+@media only screen and (max-width: 1023px) {
+  .buttons {
+    display: none;
+  }
 }
 
 .selected {

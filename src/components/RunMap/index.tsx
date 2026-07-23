@@ -122,7 +122,7 @@ const RunMap = ({
   }, []);
   const style: React.CSSProperties = {
     width: '100%',
-    height: MAP_HEIGHT,
+    height: `clamp(320px, 92vw, ${MAP_HEIGHT}px)`,
   };
   const fullscreenButton: React.CSSProperties = {
     position: 'absolute',

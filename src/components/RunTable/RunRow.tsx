@@ -33,10 +33,16 @@ const RunRow = ({ elementIndex, locateActivity, run, runIndex, setRunIndex }: IR
       onClick={handleClick}
     >
       <td>{titleForRun(run)}</td>
-      <td>{distance}</td>
+      <td>
+        {distance}
+        <span className={styles.mobileLabel}> KM</span>
+      </td>
       {SHOW_ELEVATION_GAIN && <td>{elevation_gain}</td>}
       {paceParts && <td>{paceParts}</td>}
-      <td>{heartRate && heartRate.toFixed(0)}</td>
+      <td>
+        {heartRate && heartRate.toFixed(0)}
+        {heartRate && <span className={styles.mobileLabel}> BPM</span>}
+      </td>
       <td>{runTime}</td>
       <td className={styles.runDate}>{run.start_date_local}</td>
     </tr>

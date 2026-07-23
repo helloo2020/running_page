@@ -16,6 +16,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.yearTabs {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.yearTabs::-webkit-scrollbar {
+  display: none;
+}
+
 iframe {
   border: none;
 }

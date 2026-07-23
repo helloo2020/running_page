@@ -173,18 +173,23 @@ const Index = () => {
   return (
     <Layout>
       <div className="w-full lg:w-1/3">
-        <h1 className="my-12 text-5xl font-extrabold italic">
+        <h1 className="my-8 text-4xl font-extrabold italic lg:my-12 lg:text-5xl">
           <a href="/">{siteTitle}</a>
         </h1>
-        {(viewState.zoom ?? 0) <= 3 && IS_CHINESE ? (
-          <LocationStat
-            changeYear={changeYear}
-            changeCity={changeCity}
-            changeTitle={changeTitle}
-          />
-        ) : (
-          <YearsStat year={year} onClick={changeYear} />
-        )}
+        <div className="lg:hidden">
+          <YearsStat year={year} onClick={changeYear} compact />
+        </div>
+        <div className="hidden lg:block">
+          {(viewState.zoom ?? 0) <= 3 && IS_CHINESE ? (
+            <LocationStat
+              changeYear={changeYear}
+              changeCity={changeCity}
+              changeTitle={changeTitle}
+            />
+          ) : (
+            <YearsStat year={year} onClick={changeYear} />
+          )}
+        </div>
       </div>
       <div className="w-full lg:w-2/3">
         <RunMap

@@ -1,13 +1,19 @@
 import { lazy, Suspense } from 'react';
 import Stat from '@/components/Stat';
 import useActivities from '@/hooks/useActivities';
-import { formatPace } from '@/utils/utils';
+import { formatPace, intComma } from '@/utils/utils';
 import useHover from '@/hooks/useHover';
 import { yearStats } from '@assets/index';
 import { loadSvgComponent } from '@/utils/svgUtils';
-import { SHOW_ELEVATION_GAIN } from "@/utils/const";
+import { SHOW_ELEVATION_GAIN } from '@/utils/const';
 
-const YearStat = ({ year, onClick }: { year: string, onClick: (_year: string) => void }) => {
+interface IYearStatProps {
+  year: string;
+  onClick?: (_year: string) => void;
+  compact?: boolean;
+}
+
+const YearStat = ({ year, onClick, compact = false }: IYearStatProps) => {
   let { activities: runs, years } = useActivities();
   // for hover
   const [hovered, eventHandlers] = useHover();
@@ -52,10 +58,44 @@ const YearStat = ({ year, onClick }: { year: string, onClick: (_year: string) =>
   const avgHeartRate = (heartRate / (runs.length - heartRateNullCount)).toFixed(
     0
   );
+  const compactMetrics = [
+    { label: 'Runs', value: runs.length },
+    { label: 'KM', value: sumDistance },
+    { label: 'Avg Pace', value: avgPace },
+    { label: 'Streak', value: `${streak} day` },
+    ...(hasHeartRate ? [{ label: 'Avg Heart Rate', value: avgHeartRate }] : []),
+  ];
+
+  if (compact) {
+    return (
+      <section
+        className="grid grid-cols-2 gap-x-5 gap-y-5 border border-[#e0ed5e]/20 bg-white/[0.02] p-5"
+        aria-label={`${year} running summary`}
+      >
+        <div className="col-span-2 border-b border-[#e0ed5e]/15 pb-4">
+          <span className="text-4xl font-bold italic">{year}</span>
+          <span className="ml-2 text-base font-semibold italic text-[#cccccc]">
+            Journey
+          </span>
+        </div>
+        {compactMetrics.map((metric) => (
+          <div key={metric.label}>
+            <div className="text-2xl font-bold italic tabular-nums">
+              {intComma(metric.value.toString())}
+            </div>
+            <div className="mt-1 text-xs font-semibold uppercase tracking-wide text-[#cccccc]">
+              {metric.label}
+            </div>
+          </div>
+        ))}
+      </section>
+    );
+  }
+
   return (
     <div
-      className="cursor-pointer"
-      onClick={() => onClick(year)}
+      className={onClick ? 'cursor-pointer' : ''}
+      onClick={onClick ? () => onClick(year) : undefined}
       {...eventHandlers}
     >
       <section>
