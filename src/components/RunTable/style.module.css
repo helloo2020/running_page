@@ -16,6 +16,63 @@
     display: none;
     /* 隐藏第5列 */
   }
+
+  .runTable {
+    margin: 1.5rem 0 4rem;
+    background-color: transparent;
+
+    :is(thead) {
+      display: none;
+    }
+  }
+
+  .runTable,
+  .runTable tbody,
+  .runTable tr,
+  .runTable td {
+    display: block;
+    width: 100%;
+  }
+
+  .runRow {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 1rem;
+    row-gap: 0.35rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgb(224 237 94 / 15%);
+
+    :is(td) {
+      padding: 0;
+      text-align: right;
+    }
+
+    :is(td):first-child {
+      grid-row: 1 / span 2;
+      align-self: center;
+      padding-right: 0.5rem;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    :is(td):nth-child(2) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    :is(td):nth-child(4) {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    :is(td):last-child {
+      grid-column: 1 / -1;
+      grid-row: 3;
+      color: rgb(204, 204, 204);
+      font-size: 0.75rem;
+      text-align: left;
+    }
+  }
 }
 
 .runTable {
@@ -63,4 +120,16 @@
 
 .runDate {
   color: rgb(204, 204, 204);
+}
+
+.mobileLabel {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .mobileLabel {
+    display: inline;
+    color: rgb(204, 204, 204);
+    font-size: 0.75rem;
+  }
 }
