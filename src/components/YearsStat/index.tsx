@@ -16,7 +16,7 @@ const YearsStat = ({ year, onClick, compact = false }: IYearsStatProps) => {
   yearsArrayUpdate = yearsArrayUpdate.filter((x) => x !== year);
   yearsArrayUpdate.unshift(year);
 
-  const yearsWithTotal = [...years, 'Total'];
+  const yearsWithTotal = ['Total', ...years];
 
   if (compact) {
     return (

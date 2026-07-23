@@ -24,22 +24,29 @@ import {
   RunIds,
 } from '@/utils/utils';
 
+const WORLD_VIEW: IViewState = {
+  longitude: 40,
+  latitude: 20,
+  zoom: 0,
+};
+
 const Index = () => {
   const { siteTitle } = useSiteMetadata();
   const { activities, thisYear } = useActivities();
-  const [year, setYear] = useState(thisYear);
+  const [year, setYear] = useState('Total');
   const [runIndex, setRunIndex] = useState(-1);
   const [runs, setActivity] = useState(
-    filterAndSortRuns(activities, year, filterYearRuns, sortDateFunc)
+    filterAndSortRuns(activities, 'Total', filterYearRuns, sortDateFunc)
   );
   const [title, setTitle] = useState('');
   const [geoData, setGeoData] = useState(geoJsonForRuns(runs));
+  const [isWorldOverview, setIsWorldOverview] = useState(true);
   // for auto zoom
   const bounds = getBoundsForGeoData(geoData);
   const [intervalId, setIntervalId] = useState<number>();
 
   const [viewState, setViewState] = useState<IViewState>({
-    ...bounds,
+    ...WORLD_VIEW,
   });
 
   const changeByItem = (
@@ -50,6 +57,7 @@ const Index = () => {
     scrollToMap();
     if (name != 'Year') {
       setYear(thisYear);
+      setIsWorldOverview(false);
     }
     setActivity(filterAndSortRuns(activities, item, func, sortDateFunc));
     setRunIndex(-1);
@@ -59,8 +67,11 @@ const Index = () => {
   const changeYear = (y: string) => {
     // default year
     setYear(y);
+    setIsWorldOverview(y === 'Total');
 
-    if ((viewState.zoom ?? 0) > 3 && bounds) {
+    if (y === 'Total') {
+      setViewState({ ...WORLD_VIEW });
+    } else if ((viewState.zoom ?? 0) > 3 && bounds) {
       setViewState({
         ...bounds,
       });
@@ -94,6 +105,7 @@ const Index = () => {
     if (!lastRun) {
       return;
     }
+    setIsWorldOverview(false);
     setGeoData(geoJsonForRuns(selectedRuns));
     setTitle(titleForShow(lastRun));
     clearInterval(intervalId);
@@ -102,9 +114,9 @@ const Index = () => {
 
   useEffect(() => {
     setViewState({
-      ...bounds,
+      ...(isWorldOverview ? WORLD_VIEW : bounds),
     });
-  }, [geoData]);
+  }, [geoData, isWorldOverview]);
 
   useEffect(() => {
     const runsNum = runs.length;
