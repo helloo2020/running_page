@@ -5,7 +5,6 @@ import LocationStat from '@/components/LocationStat';
 import RunMap from '@/components/RunMap';
 import RunTable from '@/components/RunTable';
 import SVGStat from '@/components/SVGStat';
-import YearFilter from '@/components/YearFilter';
 import useActivities from '@/hooks/useActivities';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
 import { IS_CHINESE } from '@/utils/const';
@@ -33,17 +32,15 @@ const WORLD_VIEW: IViewState = {
 const Index = () => {
   const { siteTitle } = useSiteMetadata();
   const { activities, thisYear } = useActivities();
-  const initialYear = thisYear || 'Total';
-  const [year, setYear] = useState(initialYear);
+  const [year, setYear] = useState('Total');
+  const [displayedYear, setDisplayedYear] = useState(thisYear);
   const [runIndex, setRunIndex] = useState(-1);
   const [runs, setActivity] = useState(
-    filterAndSortRuns(activities, initialYear, filterYearRuns, sortDateFunc)
+    filterAndSortRuns(activities, 'Total', filterYearRuns, sortDateFunc)
   );
   const [title, setTitle] = useState('');
   const [geoData, setGeoData] = useState(geoJsonForRuns(runs));
-  const [isWorldOverview, setIsWorldOverview] = useState(
-    initialYear === 'Total'
-  );
+  const [isWorldOverview, setIsWorldOverview] = useState(true);
   const [selectedCity, setSelectedCity] = useState('');
   const [hasDetailFilter, setHasDetailFilter] = useState(false);
   // for auto zoom
@@ -68,6 +65,9 @@ const Index = () => {
   const changeYear = (y: string) => {
     // default year
     setYear(y);
+    if (y !== 'Total') {
+      setDisplayedYear(y);
+    }
     setSelectedCity('');
     setHasDetailFilter(false);
     setIsWorldOverview(y === 'Total');
@@ -199,7 +199,6 @@ const Index = () => {
         <h1 className="my-8 text-4xl font-extrabold italic lg:my-12 lg:text-5xl">
           <a href="/">{siteTitle}</a>
         </h1>
-        <YearFilter year={year} onChange={changeYear} />
         {IS_CHINESE && (
           <LocationStat
             changeCity={changeCity}
@@ -214,6 +213,9 @@ const Index = () => {
           viewState={viewState}
           geoData={geoData}
           setViewState={setViewState}
+          year={year}
+          displayedYear={displayedYear}
+          changeYear={changeYear}
         />
         {year === 'Total' && !hasDetailFilter ? (
           <SVGStat />

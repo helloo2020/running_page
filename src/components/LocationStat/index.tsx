@@ -18,7 +18,7 @@ const LocationStat = ({
   selectedCity,
 }: ILocationStatProps) => (
   <div className="w-full pb-16 lg:w-full lg:pr-16">
-    <section className="pb-0">
+    <section className="mb-10">
       <p className="leading-relaxed">
         {CHINESE_LOCATION_INFO_MESSAGE_FIRST}
         .
@@ -30,7 +30,6 @@ const LocationStat = ({
         Yesterday you said tomorrow.
       </p>
     </section>
-    <hr color="red" />
     <LocationSummary />
     <CountriesStat onCityClick={changeCity} selectedCity={selectedCity} />
     <PeriodStat onClick={changeTitle} />

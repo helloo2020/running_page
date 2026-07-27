@@ -4,6 +4,7 @@ import activities from '@/static/activities.json';
 const useActivities = () => {
   const cities: Record<string, number> = {};
   const countryCities: Record<string, Record<string, number>> = {};
+  const countryDistances: Record<string, number> = {};
   const runPeriod: Record<string, number> = {};
   const provinces: Set<string> = new Set();
   const countries: Set<string> = new Set();
@@ -21,19 +22,24 @@ const useActivities = () => {
     }
 
     const { city, province, country } = location;
+    const countryName = country || (province || city ? '中国' : '');
+    if (countryName) {
+      countries.add(countryName);
+      countryCities[countryName] ||= {};
+      countryDistances[countryName] =
+        (countryDistances[countryName] || 0) + run.distance;
+    }
+
     // drop only one char city
     if (city.length > 1) {
       cities[city] = cities[city] ? cities[city] + run.distance : run.distance;
-      const countryName = country || (province ? '中国' : '');
       if (countryName) {
-        countryCities[countryName] ||= {};
         countryCities[countryName][city] = countryCities[countryName][city]
           ? countryCities[countryName][city] + run.distance
           : run.distance;
       }
     }
     if (province) provinces.add(province);
-    if (country) countries.add(country);
     const year = run.start_date_local.slice(0, 4);
     years.add(year);
   });
@@ -48,6 +54,7 @@ const useActivities = () => {
     provinces: [...provinces],
     cities,
     countryCities,
+    countryDistances,
     runPeriod,
     thisYear,
   };

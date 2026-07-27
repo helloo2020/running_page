@@ -1,13 +1,27 @@
 import Stat from '@/components/Stat';
 import useActivities from '@/hooks/useActivities';
+import { RUN_TITLES } from '@/utils/const';
 
 const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
   const { runPeriod } = useActivities();
 
   const periodArr = Object.entries(runPeriod);
-  periodArr.sort((a, b) => b[1] - a[1]);
+  const priorities = [
+    RUN_TITLES.FULL_MARATHON_RUN_TITLE,
+    RUN_TITLES.HALF_MARATHON_RUN_TITLE,
+  ];
+  periodArr.sort(([periodA, countA], [periodB, countB]) => {
+    const priorityA = priorities.indexOf(periodA);
+    const priorityB = priorities.indexOf(periodB);
+
+    if (priorityA !== priorityB) {
+      return (priorityA === -1 ? priorities.length : priorityA) -
+        (priorityB === -1 ? priorities.length : priorityB);
+    }
+    return countB - countA;
+  });
   return (
-    <div className="cursor-pointer">
+    <div className="pt-8">
       <section>
         {periodArr.map(([period, times]) => (
           <Stat
@@ -19,7 +33,6 @@ const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
           />
         ))}
       </section>
-      <hr color="red" />
     </div>
   );
 };

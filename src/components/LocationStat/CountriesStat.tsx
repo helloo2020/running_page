@@ -7,12 +7,11 @@ interface ICountriesStatProps {
 }
 
 const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
-  const { countryCities } = useActivities();
+  const { countryCities, countryDistances } = useActivities();
   const [expandedCountry, setExpandedCountry] = useState<string>();
   const countries = Object.entries(countryCities).sort(
-    ([, citiesA], [, citiesB]) =>
-      Object.values(citiesB).reduce((sum, distance) => sum + distance, 0) -
-      Object.values(citiesA).reduce((sum, distance) => sum + distance, 0)
+    ([countryA], [countryB]) =>
+      countryDistances[countryB] - countryDistances[countryA]
   );
 
   return (
@@ -23,10 +22,7 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
           const cityEntries = Object.entries(cities).sort(
             ([, distanceA], [, distanceB]) => distanceB - distanceA
           );
-          const distance = cityEntries.reduce(
-            (sum, [, cityDistance]) => sum + cityDistance,
-            0
-          );
+          const distance = countryDistances[country];
           const expanded = expandedCountry === country;
 
           return (
@@ -41,30 +37,39 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
               >
                 <span className="text-xl font-bold italic">{country}</span>
                 <span className="text-sm text-[#cccccc]">
-                  {cityEntries.length} 城市 · {(distance / 1000).toFixed(0)} KM{' '}
+                  {cityEntries.length
+                    ? `${cityEntries.length} 城市`
+                    : '暂无城市记录'}{' '}
+                  · {(distance / 1000).toFixed(0)} KM{' '}
                   <span aria-hidden="true">{expanded ? '−' : '+'}</span>
                 </span>
               </button>
               {expanded && (
                 <div className="mt-2 grid grid-cols-1 gap-2 pl-3 sm:grid-cols-2">
-                  {cityEntries.map(([city, cityDistance]) => {
-                    const selected = city === selectedCity;
-                    return (
-                      <button
-                        key={city}
-                        type="button"
-                        className={`flex min-h-[44px] items-center justify-between rounded-lg px-3 text-left text-sm transition-colors ${
-                          selected
-                            ? 'bg-[#e0ed5e] font-semibold text-[#1a1a1a]'
-                            : 'bg-[#252525] text-[#f4f4f4] hover:bg-[#303030]'
-                        }`}
-                        onClick={() => onCityClick(city)}
-                      >
-                        <span>{city}</span>
-                        <span>{(cityDistance / 1000).toFixed(0)} KM</span>
-                      </button>
-                    );
-                  })}
+                  {cityEntries.length ? (
+                    cityEntries.map(([city, cityDistance]) => {
+                      const selected = city === selectedCity;
+                      return (
+                        <button
+                          key={city}
+                          type="button"
+                          className={`flex min-h-[44px] items-center justify-between rounded-lg px-3 text-left text-sm transition-colors ${
+                            selected
+                              ? 'bg-[#e0ed5e] font-semibold text-[#1a1a1a]'
+                              : 'bg-[#252525] text-[#f4f4f4] hover:bg-[#303030]'
+                          }`}
+                          onClick={() => onCityClick(city)}
+                        >
+                          <span>{city}</span>
+                          <span>{(cityDistance / 1000).toFixed(0)} KM</span>
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <p className="py-2 text-sm text-[#8f8f8f]">
+                      这部分活动仅记录到国家，暂无可展示的城市资料。
+                    </p>
+                  )}
                 </div>
               )}
             </div>
