@@ -26,11 +26,11 @@ const data: ISiteMetadataResult = {
     },
     {
       name: 'Blog',
-      url: 'https://helloo2020.github.io/',
+      url: 'https://blog.scond.me/',
     },
     {
-      name: 'About',
-      url: 'https://helloo2020.github.io/about/',
+      name: '主页',
+      url: 'https://scond.me/',
     },
   ],
 };
