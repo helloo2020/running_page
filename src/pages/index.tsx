@@ -5,6 +5,7 @@ import LocationStat from '@/components/LocationStat';
 import RunMap from '@/components/RunMap';
 import RunTable from '@/components/RunTable';
 import SVGStat from '@/components/SVGStat';
+import YearFilter from '@/components/YearFilter';
 import useActivities from '@/hooks/useActivities';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
 import { IS_CHINESE } from '@/utils/const';
@@ -194,7 +195,15 @@ const Index = () => {
   }, [year]);
 
   return (
-    <Layout>
+    <Layout
+      headerActions={
+        <YearFilter
+          year={year}
+          displayedYear={displayedYear}
+          onChange={changeYear}
+        />
+      }
+    >
       <div className="w-full lg:w-1/3">
         <h1 className="my-8 text-4xl font-extrabold italic lg:my-12 lg:text-5xl">
           <a href="/">{siteTitle}</a>
@@ -213,9 +222,6 @@ const Index = () => {
           viewState={viewState}
           geoData={geoData}
           setViewState={setViewState}
-          year={year}
-          displayedYear={displayedYear}
-          changeYear={changeYear}
         />
         {year === 'Total' && !hasDetailFilter ? (
           <SVGStat />

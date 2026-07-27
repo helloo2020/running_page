@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
+import { ReactNode } from 'react';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
 
-const Header = () => {
+const Header = ({ actions }: { actions?: ReactNode }) => {
   const { logo, siteUrl, navLinks } = useSiteMetadata();
 
   return (
@@ -18,16 +19,19 @@ const Header = () => {
             </picture>
           </Link>
         </div>
-        <div className="flex items-center gap-3 text-right lg:gap-4">
-          {navLinks.map((n, i) => (
-            <a
-              key={i}
-              href={n.url}
-              className="min-h-[44px] content-center text-base lg:min-h-0"
-            >
-              {n.name}
-            </a>
-          ))}
+        <div className="flex flex-wrap items-center justify-end gap-2 text-right lg:gap-4">
+          {actions}
+          <div className="flex items-center gap-3 lg:gap-4">
+            {navLinks.map((n, i) => (
+              <a
+                key={i}
+                href={n.url}
+                className="min-h-[44px] content-center text-base lg:min-h-0"
+              >
+                {n.name}
+              </a>
+            ))}
+          </div>
         </div>
       </nav>
     </>
