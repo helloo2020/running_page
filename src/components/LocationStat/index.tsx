@@ -1,22 +1,21 @@
-import YearStat from '@/components/YearStat';
 import {
   CHINESE_LOCATION_INFO_MESSAGE_FIRST,
   CHINESE_LOCATION_INFO_MESSAGE_SECOND,
 } from '@/utils/const';
-import CitiesStat from './CitiesStat';
+import CountriesStat from './CountriesStat';
 import LocationSummary from './LocationSummary';
 import PeriodStat from './PeriodStat';
 
 interface ILocationStatProps {
-  changeYear: (_year: string) => void;
   changeCity: (_city: string) => void;
   changeTitle: (_title: string) => void;
+  selectedCity?: string;
 }
 
 const LocationStat = ({
-  changeYear,
   changeCity,
   changeTitle,
+  selectedCity,
 }: ILocationStatProps) => (
   <div className="w-full pb-16 lg:w-full lg:pr-16">
     <section className="pb-0">
@@ -33,9 +32,8 @@ const LocationStat = ({
     </section>
     <hr color="red" />
     <LocationSummary />
-    <CitiesStat onClick={changeCity} />
+    <CountriesStat onCityClick={changeCity} selectedCity={selectedCity} />
     <PeriodStat onClick={changeTitle} />
-    <YearStat year="Total" onClick={changeYear} />
   </div>
 );
 

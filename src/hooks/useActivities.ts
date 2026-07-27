@@ -3,6 +3,7 @@ import activities from '@/static/activities.json';
 
 const useActivities = () => {
   const cities: Record<string, number> = {};
+  const countryCities: Record<string, Record<string, number>> = {};
   const runPeriod: Record<string, number> = {};
   const provinces: Set<string> = new Set();
   const countries: Set<string> = new Set();
@@ -23,6 +24,13 @@ const useActivities = () => {
     // drop only one char city
     if (city.length > 1) {
       cities[city] = cities[city] ? cities[city] + run.distance : run.distance;
+      const countryName = country || (province ? '中国' : '');
+      if (countryName) {
+        countryCities[countryName] ||= {};
+        countryCities[countryName][city] = countryCities[countryName][city]
+          ? countryCities[countryName][city] + run.distance
+          : run.distance;
+      }
     }
     if (province) provinces.add(province);
     if (country) countries.add(country);
@@ -39,6 +47,7 @@ const useActivities = () => {
     countries: [...countries],
     provinces: [...provinces],
     cities,
+    countryCities,
     runPeriod,
     thisYear,
   };

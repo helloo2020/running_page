@@ -14,7 +14,6 @@ import {
 } from '@/utils/const';
 import { Coordinate, IViewState, geoJsonForMap } from '@/utils/utils';
 import RunMarker from './RunMarker';
-import RunMapButtons from './RunMapButtons';
 import styles from './style.module.css';
 import { FeatureCollection } from 'geojson';
 import { RPGeometry } from '@/static/run_countries';
@@ -26,9 +25,7 @@ interface IRunMapProps {
   title: string;
   viewState: IViewState;
   setViewState: (_viewState: IViewState) => void;
-  changeYear: (_year: string) => void;
   geoData: FeatureCollection<RPGeometry>;
-  thisYear: string;
 }
 
 const MAP_STYLE = {
@@ -49,9 +46,7 @@ const RunMap = ({
   title,
   viewState,
   setViewState,
-  changeYear,
   geoData,
-  thisYear,
 }: IRunMapProps) => {
   const { countries, provinces } = useActivities();
   const mapRef = useRef<MapRef>();
@@ -151,7 +146,6 @@ const RunMap = ({
       mapStyle={MAP_STYLE}
       ref={mapRefCallback}
     >
-      <RunMapButtons changeYear={changeYear} thisYear={thisYear} />
       <Source id="data" type="geojson" data={geoData}>
         <Layer
           id="province"

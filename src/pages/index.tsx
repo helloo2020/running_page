@@ -5,7 +5,7 @@ import LocationStat from '@/components/LocationStat';
 import RunMap from '@/components/RunMap';
 import RunTable from '@/components/RunTable';
 import SVGStat from '@/components/SVGStat';
-import YearsStat from '@/components/YearsStat';
+import YearFilter from '@/components/YearFilter';
 import useActivities from '@/hooks/useActivities';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
 import { IS_CHINESE } from '@/utils/const';
@@ -33,14 +33,19 @@ const WORLD_VIEW: IViewState = {
 const Index = () => {
   const { siteTitle } = useSiteMetadata();
   const { activities, thisYear } = useActivities();
-  const [year, setYear] = useState('Total');
+  const initialYear = thisYear || 'Total';
+  const [year, setYear] = useState(initialYear);
   const [runIndex, setRunIndex] = useState(-1);
   const [runs, setActivity] = useState(
-    filterAndSortRuns(activities, 'Total', filterYearRuns, sortDateFunc)
+    filterAndSortRuns(activities, initialYear, filterYearRuns, sortDateFunc)
   );
   const [title, setTitle] = useState('');
   const [geoData, setGeoData] = useState(geoJsonForRuns(runs));
-  const [isWorldOverview, setIsWorldOverview] = useState(true);
+  const [isWorldOverview, setIsWorldOverview] = useState(
+    initialYear === 'Total'
+  );
+  const [selectedCity, setSelectedCity] = useState('');
+  const [hasDetailFilter, setHasDetailFilter] = useState(false);
   // for auto zoom
   const bounds = getBoundsForGeoData(geoData);
   const [intervalId, setIntervalId] = useState<number>();
@@ -55,10 +60,6 @@ const Index = () => {
     func: (_run: Activity, _value: string) => boolean
   ) => {
     scrollToMap();
-    if (name != 'Year') {
-      setYear(thisYear);
-      setIsWorldOverview(false);
-    }
     setActivity(filterAndSortRuns(activities, item, func, sortDateFunc));
     setRunIndex(-1);
     setTitle(`${item} ${name} Running Heatmap`);
@@ -67,6 +68,8 @@ const Index = () => {
   const changeYear = (y: string) => {
     // default year
     setYear(y);
+    setSelectedCity('');
+    setHasDetailFilter(false);
     setIsWorldOverview(y === 'Total');
 
     if (y === 'Total') {
@@ -82,11 +85,19 @@ const Index = () => {
   };
 
   const changeCity = (city: string) => {
+    setYear('Total');
+    setSelectedCity(city);
+    setHasDetailFilter(true);
+    setIsWorldOverview(false);
     changeByItem(city, 'City', filterCityRuns);
   };
 
-  const changeTitle = (title: string) => {
-    changeByItem(title, 'Title', filterTitleRuns);
+  const changeTitle = (runTitle: string) => {
+    setYear('Total');
+    setSelectedCity('');
+    setHasDetailFilter(true);
+    setIsWorldOverview(false);
+    changeByItem(runTitle, 'Title', filterTitleRuns);
   };
 
   const locateActivity = (runIds: RunIds) => {
@@ -188,20 +199,14 @@ const Index = () => {
         <h1 className="my-8 text-4xl font-extrabold italic lg:my-12 lg:text-5xl">
           <a href="/">{siteTitle}</a>
         </h1>
-        <div className="lg:hidden">
-          <YearsStat year={year} onClick={changeYear} compact />
-        </div>
-        <div className="hidden lg:block">
-          {(viewState.zoom ?? 0) <= 3 && IS_CHINESE ? (
-            <LocationStat
-              changeYear={changeYear}
-              changeCity={changeCity}
-              changeTitle={changeTitle}
-            />
-          ) : (
-            <YearsStat year={year} onClick={changeYear} />
-          )}
-        </div>
+        <YearFilter year={year} onChange={changeYear} />
+        {IS_CHINESE && (
+          <LocationStat
+            changeCity={changeCity}
+            changeTitle={changeTitle}
+            selectedCity={selectedCity}
+          />
+        )}
       </div>
       <div className="w-full lg:w-2/3">
         <RunMap
@@ -209,10 +214,8 @@ const Index = () => {
           viewState={viewState}
           geoData={geoData}
           setViewState={setViewState}
-          changeYear={changeYear}
-          thisYear={year}
         />
-        {year === 'Total' ? (
+        {year === 'Total' && !hasDetailFilter ? (
           <SVGStat />
         ) : (
           <RunTable
