@@ -25,9 +25,15 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
           const distance = countryDistances[country];
           const hasCities = cityEntries.length > 0;
           const expanded = expandedCountry === country;
-          const label = hasCities
-            ? `${expanded ? '收起' : '点击查看'} ${cityEntries.length} 城市 · ${(distance / 1000).toFixed(0)} KM`
-            : `${(distance / 1000).toFixed(0)} KM`;
+          const km = (distance / 1000).toFixed(0);
+          const mobileLabel = hasCities
+            ? expanded
+              ? '收起'
+              : `${cityEntries.length}城，${km}KM`
+            : `${km}KM`;
+          const desktopLabel = hasCities
+            ? `${expanded ? '收起' : '点击查看'} ${cityEntries.length} 城市 · ${km} KM`
+            : `${km} KM`;
           const cardClassName =
             'flex min-h-[40px] w-full flex-col justify-center gap-0.5 rounded-md border border-[#e0ed5e]/25 bg-[#252525] px-3 py-2 text-left lg:flex-row lg:items-center lg:justify-between lg:gap-2 lg:py-1';
 
@@ -43,12 +49,22 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
                   }
                 >
                   <span className="text-base font-bold italic">{country}</span>
-                  <span className="text-xs text-[#cccccc]">{label}</span>
+                  <span className="text-xs text-[#cccccc] lg:hidden">
+                    {mobileLabel}
+                  </span>
+                  <span className="hidden text-xs text-[#cccccc] lg:inline">
+                    {desktopLabel}
+                  </span>
                 </button>
               ) : (
                 <div className={cardClassName}>
                   <span className="text-base font-bold italic">{country}</span>
-                  <span className="text-xs text-[#cccccc]">{label}</span>
+                  <span className="text-xs text-[#cccccc] lg:hidden">
+                    {mobileLabel}
+                  </span>
+                  <span className="hidden text-xs text-[#cccccc] lg:inline">
+                    {desktopLabel}
+                  </span>
                 </div>
               )}
               {hasCities && expanded && (

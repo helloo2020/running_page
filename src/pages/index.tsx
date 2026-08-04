@@ -38,7 +38,7 @@ const WORLD_VIEW: IViewState = {
 
 const Index = () => {
   const { siteTitle } = useSiteMetadata();
-  const { activities, thisYear } = useActivities();
+  const { activities, thisYear, years, countries, provinces } = useActivities();
   const [year, setYear] = useState('Total');
   const [displayedYear, setDisplayedYear] = useState(thisYear);
   const [runIndex, setRunIndex] = useState(-1);
@@ -207,14 +207,22 @@ const Index = () => {
           year={year}
           displayedYear={displayedYear}
           onChange={changeYear}
+          className="hidden lg:flex"
         />
       }
       contentClassName="lg:grid lg:grid-cols-[1fr_2fr] lg:[grid-template-areas:'title_map''info_map''countries_svg''periods_svg']"
     >
       <div className="w-full lg:[grid-area:title]">
-        <h1 className="my-8 text-4xl font-extrabold italic lg:my-12 lg:text-5xl">
+        <h1 className="my-8 hidden text-4xl font-extrabold italic lg:my-12 lg:block lg:text-5xl">
           <a href="/">{siteTitle}</a>
         </h1>
+        {IS_CHINESE && (
+          <p className="mt-6 text-sm leading-relaxed text-[#f4f4f4] lg:hidden">
+            <strong>{years.length}</strong> 年里我跑过，
+            <strong>{countries.length}</strong> 个国家，
+            <strong>{provinces.length}</strong> 个省份，希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
+          </p>
+        )}
       </div>
       <div className="w-full lg:[grid-area:map]">
         <RunMap
@@ -222,12 +230,15 @@ const Index = () => {
           viewState={viewState}
           geoData={geoData}
           setViewState={setViewState}
+          year={year}
+          displayedYear={displayedYear}
+          changeYear={changeYear}
         />
       </div>
       {IS_CHINESE && (
         <>
           <div className="w-full lg:pr-16 lg:[grid-area:info]">
-            <section className="mb-10">
+            <section className="mb-10 hidden lg:block">
               <p className="leading-relaxed">
                 {CHINESE_LOCATION_INFO_MESSAGE_FIRST}.
                 <br />

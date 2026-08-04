@@ -13,6 +13,7 @@ import {
   LIGHTS_ON,
 } from '@/utils/const';
 import { Coordinate, IViewState, geoJsonForMap } from '@/utils/utils';
+import YearFilter from '@/components/YearFilter';
 import RunMarker from './RunMarker';
 import styles from './style.module.css';
 import { FeatureCollection } from 'geojson';
@@ -26,6 +27,9 @@ interface IRunMapProps {
   viewState: IViewState;
   setViewState: (_viewState: IViewState) => void;
   geoData: FeatureCollection<RPGeometry>;
+  year: string;
+  displayedYear: string;
+  changeYear: (_year: string) => void;
 }
 
 const MAP_STYLE = {
@@ -47,6 +51,9 @@ const RunMap = ({
   viewState,
   setViewState,
   geoData,
+  year,
+  displayedYear,
+  changeYear,
 }: IRunMapProps) => {
   const { countries, provinces } = useActivities();
   const mapRef = useRef<MapRef>();
@@ -194,6 +201,13 @@ const RunMap = ({
       <FullscreenControl style={fullscreenButton}/>
       {!PRIVACY_MODE && <LightsControl setLights={setLights} lights={lights}/>}
       <NavigationControl showCompass={false} position={'bottom-right'} style={{opacity: 0.3}}/>
+      <div className="absolute right-3 top-3 z-10 lg:hidden">
+        <YearFilter
+          year={year}
+          displayedYear={displayedYear}
+          onChange={changeYear}
+        />
+      </div>
     </Map>
   );
 };
