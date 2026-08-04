@@ -33,7 +33,7 @@ const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
             <span className="text-sm font-semibold italic text-[#f4f4f4]">
               {period}
             </span>
-            <span className="text-xs font-medium text-[#cccccc]">
+            <span className="text-xs font-medium text-[#e0ed5e]">
               {times} Runs
             </span>
           </button>

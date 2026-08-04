@@ -17,7 +17,7 @@ const Header = ({ actions }: { actions?: ReactNode }) => {
                 src={logo}
               />
             </picture>
-            <span className="text-xl font-bold italic text-[#f4f4f4] lg:text-2xl">
+            <span className="text-xl font-bold italic text-[#e0ed5e] lg:text-2xl">
               Scond
             </span>
           </Link>
