@@ -229,6 +229,8 @@ const Index = () => {
         />
         <p className="mb-8 mt-6 text-sm leading-relaxed text-[#f4f4f4] lg:hidden">
           希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
+          <br />
+          Yesterday you said tomorrow.
         </p>
       </div>
       {IS_CHINESE && (
