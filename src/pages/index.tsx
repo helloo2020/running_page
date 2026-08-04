@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import Layout from '@/components/Layout';
-import LocationStat from '@/components/LocationStat';
+import CountriesStat from '@/components/LocationStat/CountriesStat';
+import LocationSummary from '@/components/LocationStat/LocationSummary';
+import PeriodStat from '@/components/LocationStat/PeriodStat';
 import RunMap from '@/components/RunMap';
 import RunTable from '@/components/RunTable';
 import SVGStat from '@/components/SVGStat';
 import YearFilter from '@/components/YearFilter';
 import useActivities from '@/hooks/useActivities';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
-import { IS_CHINESE } from '@/utils/const';
+import {
+  CHINESE_LOCATION_INFO_MESSAGE_FIRST,
+  CHINESE_LOCATION_INFO_MESSAGE_SECOND,
+  IS_CHINESE,
+} from '@/utils/const';
 import {
   Activity,
   IViewState,
@@ -203,26 +209,48 @@ const Index = () => {
           onChange={changeYear}
         />
       }
+      contentClassName="lg:grid lg:grid-cols-[1fr_2fr] lg:[grid-template-areas:'title_map''info_map''countries_svg''periods_svg']"
     >
-      <div className="w-full lg:w-1/3">
+      <div className="w-full lg:[grid-area:title]">
         <h1 className="my-8 text-4xl font-extrabold italic lg:my-12 lg:text-5xl">
           <a href="/">{siteTitle}</a>
         </h1>
-        {IS_CHINESE && (
-          <LocationStat
-            changeCity={changeCity}
-            changeTitle={changeTitle}
-            selectedCity={selectedCity}
-          />
-        )}
       </div>
-      <div className="w-full lg:w-2/3">
+      <div className="w-full lg:[grid-area:map]">
         <RunMap
           title={title}
           viewState={viewState}
           geoData={geoData}
           setViewState={setViewState}
         />
+      </div>
+      {IS_CHINESE && (
+        <>
+          <div className="w-full lg:pr-16 lg:[grid-area:info]">
+            <section className="mb-10">
+              <p className="leading-relaxed">
+                {CHINESE_LOCATION_INFO_MESSAGE_FIRST}.
+                <br />
+                {CHINESE_LOCATION_INFO_MESSAGE_SECOND}.
+                <br />
+                <br />
+                Yesterday you said tomorrow.
+              </p>
+            </section>
+            <LocationSummary />
+          </div>
+          <div className="w-full lg:pr-16 lg:[grid-area:periods]">
+            <PeriodStat onClick={changeTitle} />
+          </div>
+          <div className="w-full lg:pr-16 lg:[grid-area:countries]">
+            <CountriesStat
+              onCityClick={changeCity}
+              selectedCity={selectedCity}
+            />
+          </div>
+        </>
+      )}
+      <div className="w-full lg:[grid-area:svg]">
         {year === 'Total' && !hasDetailFilter ? (
           <SVGStat />
         ) : (

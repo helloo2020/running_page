@@ -7,9 +7,14 @@ import styles from './style.module.css';
 
 interface ILayoutProps extends React.PropsWithChildren {
   headerActions?: React.ReactNode;
+  contentClassName?: string;
 }
 
-const Layout = ({ children, headerActions }: ILayoutProps) => {
+const Layout = ({
+  children,
+  headerActions,
+  contentClassName = '',
+}: ILayoutProps) => {
   const { siteTitle, description } = useSiteMetadata();
 
   return (
@@ -25,7 +30,7 @@ const Layout = ({ children, headerActions }: ILayoutProps) => {
         />
       </Helmet>
       <Header actions={headerActions} />
-      <div className="mb-16 p-4 lg:flex lg:p-16">
+      <div className={`mb-16 p-4 lg:p-16 ${contentClassName}`}>
         {children}
       </div>
     </>
@@ -34,6 +39,8 @@ const Layout = ({ children, headerActions }: ILayoutProps) => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  contentClassName: PropTypes.string,
+  headerActions: PropTypes.node,
 };
 
 export default Layout;

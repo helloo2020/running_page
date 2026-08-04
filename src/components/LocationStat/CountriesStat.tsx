@@ -17,7 +17,7 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
   return (
     <section className="border-b border-[#e0ed5e]/30 py-5">
       <p className="mb-3 text-sm font-semibold text-[#cccccc]">跑过的国家</p>
-      <div className="space-y-2">
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
         {countries.map(([country, cities]) => {
           const cityEntries = Object.entries(cities).sort(
             ([, distanceA], [, distanceB]) => distanceB - distanceA
@@ -29,7 +29,7 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
             ? `${expanded ? '收起' : '点击查看'} ${cityEntries.length} 城市 · ${(distance / 1000).toFixed(0)} KM`
             : `${(distance / 1000).toFixed(0)} KM`;
           const cardClassName =
-            'flex min-h-[40px] w-full items-center justify-between rounded-md border border-[#e0ed5e]/25 bg-[#252525] px-3 text-left';
+            'flex min-h-[40px] w-full flex-col justify-center gap-0.5 rounded-md border border-[#e0ed5e]/25 bg-[#252525] px-3 py-2 text-left lg:flex-row lg:items-center lg:justify-between lg:gap-2 lg:py-1';
 
           return (
             <div key={country}>
