@@ -1,0 +1,6 @@
+target-version = "py312"
+
+[lint]
+# Keep CI focused on baseline correctness checks while legacy style rules
+# are cleaned up incrementally.
+select = ["E4", "E7", "E9", "F"]
