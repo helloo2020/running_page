@@ -10,11 +10,7 @@ import SVGStat from '@/components/SVGStat';
 import YearFilter from '@/components/YearFilter';
 import useActivities from '@/hooks/useActivities';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
-import {
-  CHINESE_LOCATION_INFO_MESSAGE_FIRST,
-  CHINESE_LOCATION_INFO_MESSAGE_SECOND,
-  IS_CHINESE,
-} from '@/utils/const';
+import { IS_CHINESE } from '@/utils/const';
 import {
   Activity,
   IViewState,
@@ -240,10 +236,7 @@ const Index = () => {
           <div className="w-1/2 pr-2 lg:w-auto lg:pr-16 lg:[grid-area:info]">
             <section className="mb-10 hidden lg:block">
               <p className="leading-relaxed">
-                {CHINESE_LOCATION_INFO_MESSAGE_FIRST}.
-                <br />
-                {CHINESE_LOCATION_INFO_MESSAGE_SECOND}.
-                <br />
+                希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
                 <br />
                 Yesterday you said tomorrow.
               </p>
