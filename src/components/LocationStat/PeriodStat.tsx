@@ -1,4 +1,3 @@
-import Stat from '@/components/Stat';
 import useActivities from '@/hooks/useActivities';
 import { RUN_TITLES } from '@/utils/const';
 
@@ -21,20 +20,23 @@ const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
     return countB - countA;
   });
   return (
-    <div className="rounded-xl border border-[#e0ed5e]/20 bg-[#252525] p-4">
+    <div className="h-full rounded-xl border border-[#e0ed5e]/20 bg-[#252525] p-4">
       <p className="mb-3 text-sm font-semibold text-[#cccccc]">运动类型</p>
       <section>
         {periodArr.map(([period, times]) => (
-          <Stat
+          <button
             key={period}
-            value={period}
-            description={` ${times} Runs`}
-            citySize={2}
-            valueClassName="text-[#f4f4f4]"
-            descriptionClassName="block text-xs font-medium text-[#cccccc]"
-            className="w-full pb-1.5"
+            type="button"
+            className="flex w-full items-baseline justify-between py-1 text-left"
             onClick={() => onClick(period)}
-          />
+          >
+            <span className="text-sm font-semibold italic text-[#f4f4f4]">
+              {period}
+            </span>
+            <span className="text-xs font-medium text-[#cccccc]">
+              {times} Runs
+            </span>
+          </button>
         ))}
       </section>
     </div>
