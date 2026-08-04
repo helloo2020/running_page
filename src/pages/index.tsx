@@ -261,7 +261,13 @@ const Index = () => {
           </div>
         </>
       )}
-      <div className="w-full lg:[grid-area:svg]">
+      <div
+        className={`w-full lg:[grid-area:svg] ${
+          year === 'Total' && !hasDetailFilter
+            ? 'lg:max-h-[1120px] lg:overflow-y-auto'
+            : ''
+        }`}
+      >
         {year === 'Total' && !hasDetailFilter ? (
           <SVGStat />
         ) : (
