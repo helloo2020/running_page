@@ -21,14 +21,18 @@ const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
     return countB - countA;
   });
   return (
-    <div className="pt-1">
+    <div className="rounded-xl border border-[#e0ed5e]/20 bg-[#252525] p-4">
+      <p className="mb-3 text-sm font-semibold text-[#cccccc]">运动类型</p>
       <section>
         {periodArr.map(([period, times]) => (
           <Stat
             key={period}
             value={period}
             description={` ${times} Runs`}
-            citySize={3}
+            citySize={2}
+            valueClassName="text-[#f4f4f4]"
+            descriptionClassName="block text-xs font-medium text-[#cccccc]"
+            className="w-full pb-1.5"
             onClick={() => onClick(period)}
           />
         ))}

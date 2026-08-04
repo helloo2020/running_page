@@ -231,13 +231,13 @@ const Index = () => {
           displayedYear={displayedYear}
           changeYear={changeYear}
         />
-        <p className="mt-4 text-sm leading-relaxed text-[#f4f4f4] lg:hidden">
+        <p className="mb-8 mt-6 text-sm leading-relaxed text-[#f4f4f4] lg:hidden">
           希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
         </p>
       </div>
       {IS_CHINESE && (
         <>
-          <div className="w-1/2 lg:w-auto lg:pr-16 lg:[grid-area:info]">
+          <div className="w-1/2 pr-2 lg:w-auto lg:pr-16 lg:[grid-area:info]">
             <section className="mb-10 hidden lg:block">
               <p className="leading-relaxed">
                 {CHINESE_LOCATION_INFO_MESSAGE_FIRST}.
@@ -250,7 +250,7 @@ const Index = () => {
             </section>
             <LocationSummary />
           </div>
-          <div className="w-1/2 lg:w-auto lg:pr-16 lg:[grid-area:periods]">
+          <div className="w-1/2 pl-2 lg:w-auto lg:pl-0 lg:pr-16 lg:[grid-area:periods]">
             <PeriodStat onClick={changeTitle} />
           </div>
           <div className="w-full lg:pr-16 lg:[grid-area:countries]">
