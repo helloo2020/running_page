@@ -29,7 +29,7 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
             ? `${expanded ? '收起' : '点击查看'} ${cityEntries.length} 城市 · ${(distance / 1000).toFixed(0)} KM`
             : `${(distance / 1000).toFixed(0)} KM`;
           const cardClassName =
-            'flex min-h-[48px] w-full items-center justify-between rounded-lg border border-[#e0ed5e]/25 bg-[#252525] px-4 text-left';
+            'flex min-h-[40px] w-full items-center justify-between rounded-md border border-[#e0ed5e]/25 bg-[#252525] px-3 text-left';
 
           return (
             <div key={country}>
@@ -42,13 +42,13 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
                     setExpandedCountry(expanded ? undefined : country)
                   }
                 >
-                  <span className="text-xl font-bold italic">{country}</span>
-                  <span className="text-sm text-[#cccccc]">{label}</span>
+                  <span className="text-base font-bold italic">{country}</span>
+                  <span className="text-xs text-[#cccccc]">{label}</span>
                 </button>
               ) : (
                 <div className={cardClassName}>
-                  <span className="text-xl font-bold italic">{country}</span>
-                  <span className="text-sm text-[#cccccc]">{label}</span>
+                  <span className="text-base font-bold italic">{country}</span>
+                  <span className="text-xs text-[#cccccc]">{label}</span>
                 </div>
               )}
               {hasCities && expanded && (
