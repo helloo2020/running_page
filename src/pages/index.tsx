@@ -30,15 +30,21 @@ import {
   RunIds,
 } from '@/utils/utils';
 
-const WORLD_VIEW: IViewState = {
-  longitude: 40,
-  latitude: 20,
-  zoom: 0,
+const worldView = (): IViewState => {
+  if (typeof window === 'undefined') {
+    return { longitude: 105, latitude: 45, zoom: 0.8 };
+  }
+  if (window.innerWidth < 1024) {
+    return { longitude: 105, latitude: 45, zoom: 0 };
+  }
+  const containerWidth = Math.max(500, (window.innerWidth - 128) * (2 / 3));
+  const zoom = Math.min(1.3, Math.max(0.5, Math.log2(containerWidth / 512)));
+  return { longitude: 105, latitude: 45, zoom };
 };
 
 const Index = () => {
   const { siteTitle } = useSiteMetadata();
-  const { activities, thisYear, years, countries, provinces } = useActivities();
+  const { activities, thisYear } = useActivities();
   const [year, setYear] = useState('Total');
   const [displayedYear, setDisplayedYear] = useState(thisYear);
   const [runIndex, setRunIndex] = useState(-1);
@@ -54,9 +60,7 @@ const Index = () => {
   const bounds = getBoundsForGeoData(geoData);
   const [intervalId, setIntervalId] = useState<number>();
 
-  const [viewState, setViewState] = useState<IViewState>({
-    ...WORLD_VIEW,
-  });
+  const [viewState, setViewState] = useState<IViewState>(worldView());
 
   const changeByItem = (
     item: string,
@@ -80,7 +84,7 @@ const Index = () => {
     setIsWorldOverview(y === 'Total');
 
     if (y === 'Total') {
-      setViewState({ ...WORLD_VIEW });
+      setViewState({ ...worldView() });
     } else if ((viewState.zoom ?? 0) > 3 && bounds) {
       setViewState({
         ...bounds,
@@ -132,7 +136,7 @@ const Index = () => {
 
   useEffect(() => {
     setViewState({
-      ...(isWorldOverview ? WORLD_VIEW : bounds),
+      ...(isWorldOverview ? worldView() : bounds),
     });
   }, [geoData, isWorldOverview]);
 
@@ -216,13 +220,6 @@ const Index = () => {
         <h1 className="my-8 hidden text-4xl font-extrabold italic lg:my-12 lg:block lg:text-5xl">
           <a href="/">{siteTitle}</a>
         </h1>
-        {IS_CHINESE && (
-          <p className="mt-6 text-sm leading-relaxed text-[#f4f4f4] lg:hidden">
-            <strong>{years.length}</strong> 年里我跑过，
-            <strong>{countries.length}</strong> 个国家，
-            <strong>{provinces.length}</strong> 个省份，希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
-          </p>
-        )}
       </div>
       <div className="w-full lg:[grid-area:map]">
         <RunMap
@@ -234,6 +231,9 @@ const Index = () => {
           displayedYear={displayedYear}
           changeYear={changeYear}
         />
+        <p className="mt-4 text-sm leading-relaxed text-[#f4f4f4] lg:hidden">
+          希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
+        </p>
       </div>
       {IS_CHINESE && (
         <>
