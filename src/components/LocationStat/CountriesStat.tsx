@@ -15,7 +15,7 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
   );
 
   return (
-    <section className="border-b border-[#e0ed5e]/30 py-5">
+    <section className="border-b border-[#e0ed5e]/30 py-5 lg:pb-2">
       <p className="mb-3 text-sm font-semibold text-[#cccccc]">跑过的国家</p>
       <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
         {countries.map(([country, cities]) => {
