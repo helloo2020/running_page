@@ -128,6 +128,15 @@
   .mapboxgl-ctrl-top-right button {
     margin-top: 64px !important;
   }
+  .maplibregl-ctrl-top-right .maplibregl-ctrl-group,
+  .mapboxgl-ctrl-top-right .mapboxgl-ctrl-group {
+    background: transparent;
+    box-shadow: none;
+  }
+  .maplibregl-ctrl button.maplibregl-ctrl-fullscreen .maplibregl-ctrl-icon,
+  .mapboxgl-ctrl button.mapboxgl-ctrl-fullscreen .mapboxgl-ctrl-icon {
+    filter: invert(1);
+  }
 }
 .mapboxgl-ctrl-group button + button {
   border-top: 1px solid #ddd;

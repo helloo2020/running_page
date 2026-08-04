@@ -214,7 +214,7 @@ const Index = () => {
           className="hidden lg:flex"
         />
       }
-      contentClassName="lg:grid lg:grid-cols-[1fr_2fr] lg:[grid-template-areas:'title_map''info_map''countries_svg''periods_svg']"
+      contentClassName="flex flex-wrap lg:grid lg:grid-cols-[1fr_2fr] lg:[grid-template-areas:'title_map''info_map''countries_svg''periods_svg']"
     >
       <div className="w-full lg:[grid-area:title]">
         <h1 className="my-8 hidden text-4xl font-extrabold italic lg:my-12 lg:block lg:text-5xl">
@@ -237,7 +237,7 @@ const Index = () => {
       </div>
       {IS_CHINESE && (
         <>
-          <div className="w-full lg:pr-16 lg:[grid-area:info]">
+          <div className="w-1/2 lg:w-auto lg:pr-16 lg:[grid-area:info]">
             <section className="mb-10 hidden lg:block">
               <p className="leading-relaxed">
                 {CHINESE_LOCATION_INFO_MESSAGE_FIRST}.
@@ -250,7 +250,7 @@ const Index = () => {
             </section>
             <LocationSummary />
           </div>
-          <div className="w-full lg:pr-16 lg:[grid-area:periods]">
+          <div className="w-1/2 lg:w-auto lg:pr-16 lg:[grid-area:periods]">
             <PeriodStat onClick={changeTitle} />
           </div>
           <div className="w-full lg:pr-16 lg:[grid-area:countries]">
