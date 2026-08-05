@@ -61,22 +61,28 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
                 </div>
               )}
               {hasCities && expanded && (
-                <div className="mt-2 grid w-full grid-cols-1 gap-2 pl-3 sm:grid-cols-2">
+                <div className="mt-2 flex w-full flex-wrap gap-2 pl-3">
                   {cityEntries.map(([city, cityDistance]) => {
                     const selected = city === selectedCity;
                     return (
                       <button
                         key={city}
                         type="button"
-                        className={`flex min-h-[44px] items-center justify-between rounded-lg px-3 text-left text-sm transition-colors ${
+                        className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-left text-sm transition-colors ${
                           selected
-                            ? 'bg-[#e0ed5e] font-semibold text-[#1a1a1a]'
-                            : 'bg-[#252525] text-[#f4f4f4] hover:bg-[#303030]'
+                            ? 'border-[#e0ed5e] bg-[#e0ed5e] font-semibold text-[#1a1a1a]'
+                            : 'border-[#e0ed5e]/25 bg-[#252525] text-[#f4f4f4] hover:border-[#e0ed5e]/60 hover:bg-[#303030]'
                         }`}
                         onClick={() => onCityClick(city)}
                       >
                         <span>{city}</span>
-                        <span>{(cityDistance / 1000).toFixed(0)} KM</span>
+                        <span
+                          className={`text-xs ${
+                            selected ? 'text-[#1a1a1a]' : 'text-[#cccccc]'
+                          }`}
+                        >
+                          {(cityDistance / 1000).toFixed(0)} KM
+                        </span>
                       </button>
                     );
                   })}

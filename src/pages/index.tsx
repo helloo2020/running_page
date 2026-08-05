@@ -235,7 +235,7 @@ const Index = () => {
       </div>
       {IS_CHINESE && (
         <>
-          <div className="w-1/2 pr-2 lg:w-auto lg:pr-16 lg:[grid-area:info]">
+          <div className="w-1/2 pr-2 lg:flex lg:w-auto lg:flex-col lg:pr-16 lg:[grid-area:info]">
             <section className="mb-10 hidden lg:block">
               <p className="leading-relaxed">
                 希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
@@ -248,7 +248,7 @@ const Index = () => {
           <div className="w-1/2 pl-2 lg:w-auto lg:pl-0 lg:pr-16 lg:[grid-area:periods]">
             <PeriodStat onClick={changeTitle} />
           </div>
-          <div className="w-full lg:pr-16 lg:[grid-area:countries]">
+          <div className="w-full lg:mb-6 lg:pr-16 lg:[grid-area:countries]">
             <CountriesStat
               onCityClick={changeCity}
               selectedCity={selectedCity}
