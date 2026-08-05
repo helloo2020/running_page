@@ -20,7 +20,7 @@ const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
     return countB - countA;
   });
   return (
-    <div className="h-full rounded-xl border border-[#e0ed5e]/20 bg-[#252525] p-4">
+    <div className="h-full rounded-xl border border-[#e0ed5e]/20 bg-[#252525] p-4 lg:h-auto">
       <p className="mb-3 text-sm font-semibold text-[#cccccc]">运动类型</p>
       <section>
         {periodArr.map(([period, times]) => (

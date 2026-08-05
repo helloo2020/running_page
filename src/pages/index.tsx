@@ -210,7 +210,7 @@ const Index = () => {
           className="hidden lg:flex"
         />
       }
-      contentClassName="flex flex-wrap lg:grid lg:grid-cols-[1fr_2fr] lg:[grid-template-areas:'title_map''info_map''countries_svg''periods_svg']"
+      contentClassName="flex flex-wrap lg:grid lg:grid-cols-[1fr_2fr] lg:[grid-template-areas:'title_map''info_map''left_svg']"
     >
       <div className="w-full lg:[grid-area:title]">
         <h1 className="my-8 hidden text-4xl font-extrabold italic lg:my-12 lg:block lg:text-5xl">
@@ -245,14 +245,16 @@ const Index = () => {
             </section>
             <LocationSummary />
           </div>
-          <div className="w-1/2 pl-2 lg:w-auto lg:pl-0 lg:pr-16 lg:[grid-area:periods]">
-            <PeriodStat onClick={changeTitle} />
-          </div>
-          <div className="w-full lg:mb-6 lg:pr-16 lg:[grid-area:countries]">
-            <CountriesStat
-              onCityClick={changeCity}
-              selectedCity={selectedCity}
-            />
+          <div className="contents lg:flex lg:flex-col lg:gap-4 lg:pr-16 lg:[grid-area:left]">
+            <div className="w-1/2 pl-2 lg:mt-4 lg:w-auto lg:pl-0">
+              <PeriodStat onClick={changeTitle} />
+            </div>
+            <div className="w-full">
+              <CountriesStat
+                onCityClick={changeCity}
+                selectedCity={selectedCity}
+              />
+            </div>
           </div>
         </>
       )}
