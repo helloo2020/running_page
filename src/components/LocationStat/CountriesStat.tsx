@@ -8,16 +8,18 @@ interface ICountriesStatProps {
 
 const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
   const { countryCities, countryDistances } = useActivities();
-  const [expandedCountry, setExpandedCountry] = useState<string>();
+  const [expandedCountry, setExpandedCountry] = useState<string | undefined>(
+    '中国'
+  );
   const countries = Object.entries(countryCities).sort(
     ([countryA], [countryB]) =>
       countryDistances[countryB] - countryDistances[countryA]
   );
 
   return (
-    <section className="border-b border-[#e0ed5e]/30 py-3 lg:pb-2">
+    <section className="border-b border-[#e0ed5e]/30 py-3 lg:pb-2 lg:pl-4">
       <p className="mb-3 text-sm font-semibold text-[#cccccc]">跑过的国家</p>
-      <div className="flex flex-wrap gap-2 lg:grid lg:grid-cols-1">
+      <div className="flex flex-wrap gap-2">
         {countries.map(([country, cities]) => {
           const cityEntries = Object.entries(cities).sort(
             ([, distanceA], [, distanceB]) => distanceB - distanceA
@@ -31,14 +33,11 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
               ? '收起'
               : `${cityEntries.length}城，${km}KM`
             : `${km}KM`;
-          const desktopLabel = hasCities
-            ? `${expanded ? '收起' : '点击查看'} ${cityEntries.length} 城市 · ${km} KM`
-            : `${km} KM`;
           const cardClassName =
-            'flex w-auto items-center gap-1.5 rounded-full border border-[#e0ed5e]/25 bg-[#252525] px-3 py-1 text-left lg:min-h-[40px] lg:w-full lg:justify-between lg:gap-2 lg:rounded-md';
+            'flex w-auto items-center gap-1.5 rounded-full border border-[#e0ed5e]/25 bg-[#252525] px-3 py-1 text-left';
 
           return (
-            <div key={country} className="contents lg:block">
+            <div key={country} className="contents">
               {hasCities ? (
                 <button
                   type="button"
@@ -48,27 +47,17 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
                     setExpandedCountry(expanded ? undefined : country)
                   }
                 >
-                  <span className="text-sm font-bold italic lg:text-base">
+                  <span className="text-sm font-bold italic">
                     {country}
                   </span>
-                  <span className="text-xs text-[#cccccc] lg:hidden">
-                    {mobileLabel}
-                  </span>
-                  <span className="hidden text-xs text-[#cccccc] lg:inline">
-                    {desktopLabel}
-                  </span>
+                  <span className="text-xs text-[#cccccc]">{mobileLabel}</span>
                 </button>
               ) : (
                 <div className={cardClassName}>
-                  <span className="text-sm font-bold italic lg:text-base">
+                  <span className="text-sm font-bold italic">
                     {country}
                   </span>
-                  <span className="text-xs text-[#cccccc] lg:hidden">
-                    {mobileLabel}
-                  </span>
-                  <span className="hidden text-xs text-[#cccccc] lg:inline">
-                    {desktopLabel}
-                  </span>
+                  <span className="text-xs text-[#cccccc]">{mobileLabel}</span>
                 </div>
               )}
               {hasCities && expanded && (
