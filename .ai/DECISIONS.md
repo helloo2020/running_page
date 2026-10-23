@@ -33,3 +33,7 @@ Impact: Commands such as `pnpm run clean` and `pnpm run data:clean` require expl
 ## 2026-10-23 · Untimed indoor heart-rate samples cannot invalidate a run
 
 The release audit found a second malformed-input case on the reported indoor activity: individual heart-rate samples can omit their timestamp. Ignore those samples for attaching heart rate to GPS points while preserving Keep's separately reported average and all valid activity facts. Preserve the existing doubtful-activity filter. Real workflow, cloud snapshot and authenticated home verification are required before declaring this incident fixed; an older recovered activity or successful scheduler invocation alone is insufficient.
+
+## 2026-10-23 · Reproducible CI checks with synthetic GPX data
+
+Pin Black/Ruff and explicitly target Python 3.11 formatting across the supported CI matrix. Run static checks and Keep regressions before the GPX smoke test. The GPX check uses the real parser, SQLite persistence and JSON generation in a disposable code-only copy, with synthetic coordinates and a stubbed reverse geocoder; assert output facts and repeat-run deduplication instead of rescanning personal activity data or relying on external geocoding. Production sync behavior and notification settings remain unchanged.
