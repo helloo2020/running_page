@@ -44,3 +44,5 @@ Tim wants run.scond.me to match scond.me consistently on desktop and especially 
 ## Calendar and summary preferences · 2026-10-23
 
 Tim wants the calendar to default to the latest year (currently 2026), with an explicit 全部年份 option. Preserve the original vivid cyan/yellow/red distance colors so long runs stand out; do not replace them with a muted green scale. Long-distance routes are expanded by default. Summary must paginate year/month/week/day records (six per page in this iteration), particularly week/day, and use compact segmented period controls rather than the previous dropdown. Keep this iteration local until separately authorized for Production.
+
+- 2026-10-23: Public running-site display name is Scond throughout, including generated chart text. Do not show Tim as the athlete name in the UI.

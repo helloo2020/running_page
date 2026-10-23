@@ -60,7 +60,8 @@ export const loadSvgComponent = async (
               .replace(/^Total:/, '累计：')
               .replace(/^Avg:/, '平均：')
               .replace(/^Min:/, '最短：')
-              .replace(/^Max:/, '最长：');
+              .replace(/^Max:/, '最长：')
+              .replace(/\bTim\b/g, 'Scond');
           node.style.fontFamily =
             '-apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif';
         });
