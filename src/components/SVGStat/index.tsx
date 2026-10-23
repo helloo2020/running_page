@@ -239,7 +239,7 @@ const SVGStat = ({
         />
       ))}
       <div className="calendar-footer">
-        <span className="calendar-hint">点击有颜色的日期查看记录</span>
+        <span className="calendar-hint">左右滑动查看月份，点击有颜色的日期查看记录</span>
         <span
           className="calendar-legend"
           aria-label="每日累计距离：蓝色不超过10公里，黄橙色超过10且小于20公里，红色20公里及以上"

@@ -1163,3 +1163,9 @@ select option {
     flex-wrap: wrap;
   }
 }
+
+@media (max-width: 700px) {
+  .calendar-chart { min-width: 2600px; }
+  .calendar-cell { min-width: 44px; min-height: 44px; }
+  .calendar-scroll { scroll-snap-type: x proximity; }
+}

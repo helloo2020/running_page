@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import Layout from '@/components/Layout';
 import activities from '@/static/activities.json';
+import { isRunning } from '@/utils/activityLog';
 import styles from './style.module.css';
 import { ACTIVITY_TOTAL } from '@/utils/const';
 import { convertMovingTime2Sec } from '@/utils/utils';
@@ -231,7 +232,7 @@ const ActivityList: React.FC = () => {
   };
 
   const filterActivities = (activity: Activity): boolean => {
-    return activity.type.toLowerCase() === 'run';
+    return isRunning(activity.type);
   };
 
   const groupActivities = (interval: IntervalType): ActivityGroups => {
