@@ -19,14 +19,69 @@
 .filterContainer {
   display: flex;
   align-items: center;
+  background: var(--surface);
+  padding: 4px;
+  border-radius: 8px;
+  gap: 3px;
 }
-.filterContainer select {
+.filterContainer button {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  min-height: 36px;
+  min-width: 40px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.filterContainer button[aria-pressed='true'] {
   background: var(--page);
-  color: var(--ink);
+  color: var(--accent);
+  border-color: var(--border);
+}
+.filterContainer button:hover {
+  color: var(--accent);
+}
+.listStart {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0 0 16px;
+  scroll-margin-top: 24px;
+}
+.listStart:focus {
+  outline: none;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 36px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.pagination button {
+  min-height: 44px;
+  color: var(--accent);
+}
+.pageSelect {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pageSelect select {
+  appearance: none;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 10px 12px;
-  min-height: 42px;
+  color: var(--ink);
+  border-radius: 5px;
+  padding: 8px 10px;
+  min-height: 38px;
   cursor: pointer;
 }
 .summaryContainer {
@@ -100,5 +155,24 @@
   }
   .activityDetails p {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 700px) {
+  .pageHeading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .filterContainer {
+    width: 100%;
+  }
+  .filterContainer button {
+    flex: 1;
+    padding: 6px 8px;
+    min-height: 40px;
+  }
+  .pagination {
+    gap: 10px;
   }
 }

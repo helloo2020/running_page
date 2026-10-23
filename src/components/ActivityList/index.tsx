@@ -1,4 +1,4 @@
-import React, { lazy, useState, Suspense, useMemo } from 'react';
+import React, { lazy, useState, Suspense, useMemo, useRef } from 'react';
 import {
   BarChart,
   Bar,
@@ -49,7 +49,7 @@ interface DisplaySummary {
 
 interface ChartData {
   day: number;
-  distance: string;
+  distance: number;
 }
 
 interface ActivityCardProps {
@@ -221,9 +221,13 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
 
 const ActivityList: React.FC = () => {
   const [interval, setInterval] = useState<IntervalType>('month');
+  const [page, setPage] = useState(1);
+  const listStart = useRef<HTMLDivElement>(null);
+  const pageSize = 6;
 
   const toggleInterval = (newInterval: IntervalType): void => {
     setInterval(newInterval);
+    setPage(1);
   };
 
   const filterActivities = (activity: Activity): boolean => {
@@ -308,6 +312,46 @@ const ActivityList: React.FC = () => {
     [interval]
   );
 
+  const sortedPeriods = useMemo(
+    () =>
+      Object.entries(activitiesByInterval).sort(([a], [b]) => {
+        if (interval === 'day') {
+          return new Date(b).getTime() - new Date(a).getTime(); // Sort by date
+        } else if (interval === 'week') {
+          const [yearA, weekA] = a.split('-W').map(Number);
+          const [yearB, weekB] = b.split('-W').map(Number);
+          return yearB - yearA || weekB - weekA; // Sort by year and week number
+        } else {
+          const [yearA, monthA = 0] = a.split('-').map(Number);
+          const [yearB, monthB = 0] = b.split('-').map(Number);
+          return yearB - yearA || monthB - monthA; // Sort by year and month
+        }
+      }),
+    [activitiesByInterval, interval]
+  );
+  const totalPages = Math.max(1, Math.ceil(sortedPeriods.length / pageSize));
+  const visiblePeriods = sortedPeriods.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  );
+  const changePage = (next: number) => {
+    setPage(Math.max(1, Math.min(totalPages, next)));
+    listStart.current?.focus({ preventScroll: true });
+    listStart.current?.scrollIntoView({
+      block: 'start',
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'auto'
+        : 'smooth',
+    });
+  };
+  const periods: [IntervalType, string][] = [
+    ['year', '年'],
+    ['month', '月'],
+    ['week', '周'],
+    ['day', '日'],
+    ['life', '月度足迹'],
+  ];
+
   return (
     <Layout contentClassName={styles.activityList}>
       <div className={styles.pageHeading}>
@@ -315,18 +359,21 @@ const ActivityList: React.FC = () => {
           <h1>跑步统计</h1>
           <p>按时间回看，每一段跑过的路。</p>
         </div>
-        <div className={styles.filterContainer}>
-          <select
-            aria-label="统计周期"
-            onChange={(e) => toggleInterval(e.target.value as IntervalType)}
-            value={interval}
-          >
-            <option value="year">{ACTIVITY_TOTAL.YEARLY_TITLE}</option>
-            <option value="month">{ACTIVITY_TOTAL.MONTHLY_TITLE}</option>
-            <option value="week">{ACTIVITY_TOTAL.WEEKLY_TITLE}</option>
-            <option value="day">{ACTIVITY_TOTAL.DAILY_TITLE}</option>
-            <option value="life">月度足迹</option>
-          </select>
+        <div
+          className={styles.filterContainer}
+          role="group"
+          aria-label="统计周期"
+        >
+          {periods.map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={interval === value}
+              onClick={() => toggleInterval(value)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -339,41 +386,67 @@ const ActivityList: React.FC = () => {
       )}
 
       {interval !== 'life' && (
-        <div className={styles.summaryContainer}>
-          {Object.entries(activitiesByInterval)
-            .sort(([a], [b]) => {
-              if (interval === 'day') {
-                return new Date(b).getTime() - new Date(a).getTime(); // Sort by date
-              } else if (interval === 'week') {
-                const [yearA, weekA] = a.split('-W').map(Number);
-                const [yearB, weekB] = b.split('-W').map(Number);
-                return yearB - yearA || weekB - weekA; // Sort by year and week number
-              } else {
-                const [yearA, monthA = 0] = a.split('-').map(Number);
-                const [yearB, monthB = 0] = b.split('-').map(Number);
-                return yearB - yearA || monthB - monthA; // Sort by year and month
-              }
-            })
-            .map(([period, summary]) => (
-              <ActivityCard
-                key={period}
-                period={period}
-                summary={{
-                  totalDistance: summary.totalDistance,
-                  averageSpeed: summary.totalTime
-                    ? summary.totalDistance / (summary.totalTime / 3600)
-                    : 0,
-                  totalTime: summary.totalTime,
-                  count: summary.count,
-                  maxDistance: summary.maxDistance,
-                  maxSpeed: summary.maxSpeed,
-                  location: summary.location,
-                }}
-                dailyDistances={summary.dailyDistances}
-                interval={interval}
-              />
-            ))}
+        <div className={styles.listStart} ref={listStart} tabIndex={-1}>
+          <span aria-live="polite">
+            共 {sortedPeriods.length} 组记录 · 第 {page} / {totalPages} 页
+          </span>
+          <span>每页 {pageSize} 组</span>
         </div>
+      )}
+      {interval !== 'life' && (
+        <div className={styles.summaryContainer}>
+          {visiblePeriods.map(([period, summary]) => (
+            <ActivityCard
+              key={period}
+              period={period}
+              summary={{
+                totalDistance: summary.totalDistance,
+                averageSpeed: summary.totalTime
+                  ? summary.totalDistance / (summary.totalTime / 3600)
+                  : 0,
+                totalTime: summary.totalTime,
+                count: summary.count,
+                maxDistance: summary.maxDistance,
+                maxSpeed: summary.maxSpeed,
+                location: summary.location,
+              }}
+              dailyDistances={summary.dailyDistances}
+              interval={interval}
+            />
+          ))}
+        </div>
+      )}
+      {interval !== 'life' && totalPages > 1 && (
+        <nav className={styles.pagination} aria-label="统计分页">
+          <button
+            type="button"
+            onClick={() => changePage(page - 1)}
+            disabled={page === 1}
+          >
+            ← 上一页
+          </button>
+          <label className={styles.pageSelect}>
+            <span className="sr-only">跳转到页</span>
+            <select
+              value={page}
+              onChange={(event) => changePage(Number(event.target.value))}
+            >
+              {Array.from({ length: totalPages }, (_, index) => (
+                <option key={index + 1} value={index + 1}>
+                  第 {index + 1} 页
+                </option>
+              ))}
+            </select>
+            <span>/ {totalPages}</span>
+          </label>
+          <button
+            type="button"
+            onClick={() => changePage(page + 1)}
+            disabled={page === totalPages}
+          >
+            下一页 →
+          </button>
+        </nav>
       )}
     </Layout>
   );

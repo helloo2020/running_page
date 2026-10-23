@@ -27,9 +27,6 @@ export const loadSvgComponent = async (
         const mappings: Record<string, string> = {
           '#e1ed5e': colors.getPropertyValue('--accent').trim(),
           '#444444': colors.getPropertyValue('--heat-0').trim(),
-          yellow: '#ad8652',
-          red: '#b87965',
-          '#4dd2ff': '#729d8a',
           gray: colors.getPropertyValue('--muted').trim(),
           '#e0ed5e': colors.getPropertyValue('--accent').trim(),
           '#d8ff5f': colors.getPropertyValue('--accent').trim(),

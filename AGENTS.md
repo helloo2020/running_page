@@ -39,3 +39,8 @@ Then check `git status --short` and protect unrelated user changes.
 ## Visual polish request · 2026-10-23
 
 Tim wants run.scond.me to match scond.me consistently on desktop and especially mobile: restrained forest-green/near-white light/dark palette, coherent navigation icons, Chinese interface labels, refined map fills and boundaries, selection controls and charts. Keep the public activity/route data and privacy mode intact. The current comprehensive refinement is a local preview awaiting visual review, not a Production release authorization.
+
+
+## Calendar and summary preferences · 2026-10-23
+
+Tim wants the calendar to default to the latest year (currently 2026), with an explicit 全部年份 option. Preserve the original vivid cyan/yellow/red distance colors so long runs stand out; do not replace them with a muted green scale. Long-distance routes are expanded by default. Summary must paginate year/month/week/day records (six per page in this iteration), particularly week/day, and use compact segmented period controls rather than the previous dropdown. Keep this iteration local until separately authorized for Production.

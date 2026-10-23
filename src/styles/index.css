@@ -682,3 +682,31 @@ select option {
   color: var(--muted);
   font-size: 11px;
 }
+
+.calendar-year-block + .calendar-year-block {
+  margin-top: 28px;
+}
+.calendar-year-block h3 {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+.calendar-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.calendar-legend {
+  gap: 10px;
+}
+.calendar-footer {
+  flex-wrap: wrap;
+}
+@media (max-width: 600px) {
+  .calendar-footer {
+    gap: 10px;
+  }
+  .calendar-legend {
+    font-size: 9px;
+  }
+}

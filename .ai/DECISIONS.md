@@ -40,3 +40,8 @@ Tim approved same-tab navigation between scond.me, blog.scond.me, read.scond.me 
 ## 2026-10-23 · Running visual refinement implementation
 
 Local preview decision: keep MapLibre/Recharts and the existing public data pipeline. Separate polygon outlines from route strokes so geography can use thin borders independently. Move year selection out of the map. Render the activity calendar as a readable React view of existing public activity data instead of shrinking an entire multi-year SVG; retain all years, day-to-route selection and the original long-distance SVG as an on-demand disclosure. Use Chinese interface labels and the shared Scond header across home and summary. No new backend, dependency, geography source or private-data access. Production release still requires explicit authorization; this iteration awaits Tim's visual review.
+
+
+## 2026-10-23 · Calendar feedback supersedes collapsed route default
+
+Tim explicitly chose vivid original distance colors and initially expanded long-distance routes. Keep the React calendar with latest-year default plus an explicit all-years view, and place selected-day feedback beside its year. Summary remains a simple chronological archive, with six groups per page and segmented period selection. This supersedes the earlier muted calendar and collapsed/on-demand route default; source SVG/data generation stays unchanged.
