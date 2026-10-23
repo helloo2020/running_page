@@ -2,6 +2,14 @@
 
 Last updated: 2026-10-23
 
+## 2026-10-23 · CI formatting repair
+
+- Tim authorized fixing the repeated CI failures and releasing to the existing `run.scond.me` production project.
+- `ae4da99` failed Black on `run_page/keep_sync.py` and `tests/test_keep_sync.py`; the GPX step passed. Both files now follow Black formatting, with identical Python ASTs before and after the edit.
+- Pinned Black 26.10.1 and Ruff 0.17.2 in development requirements. Black explicitly targets Python 3.11, the oldest CI runtime. Formatting/lint now run before GPX, and the ten synthetic Keep regressions also run in CI.
+- Local validation: all 49 Python files pass Black, Ruff passes, ten Keep tests pass, Vite production build passes, and `git diff --check` passes. The local pnpm launcher could not run against the reused dependency directory; the build script's underlying `vite build` completed successfully.
+- Remote matrix verification and production release are pending. Work is isolated from the original checkout and its existing `.ai/CURRENT.md` edit. No activity data or credentials are included in the repair commit.
+
 ## 2026-10-23 · Keep sync repair released and verified
 
 - Tim explicitly authorized releasing the running sync repair and catching up the existing public running page and TimOS cloud snapshot. Only `run-scond-me` is linked to this upstream repository; TimOS app/server code, Life, credentials, permissions and schedules were not changed.

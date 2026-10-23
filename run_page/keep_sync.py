@@ -70,16 +70,23 @@ def get_to_download_runs_ids(session, headers, sport_type):
                     # Report only the newest candidate's date/filter outcome,
                     # never account details, credentials or GPS coordinates.
                     newest = logs[0]
-                    detail = get_single_run_data(session, headers, newest["id"], sport_type)
+                    detail = get_single_run_data(
+                        session, headers, newest["id"], sport_type
+                    )
                     data = (detail or {}).get("data") or {}
                     timestamp = data.get("startTime")
                     latest_date = (
-                        datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc).isoformat()
-                        if isinstance(timestamp, (int, float)) else "unavailable"
+                        datetime.fromtimestamp(
+                            timestamp / 1000, tz=timezone.utc
+                        ).isoformat()
+                        if isinstance(timestamp, (int, float))
+                        else "unavailable"
                     )
-                    print(f"Keep newest candidate: start_utc={latest_date} "
-                          f"type={data.get('dataType', 'unavailable')} "
-                          f"doubtful={bool(newest.get('isDoubtful'))}")
+                    print(
+                        f"Keep newest candidate: start_utc={latest_date} "
+                        f"type={data.get('dataType', 'unavailable')} "
+                        f"doubtful={bool(newest.get('isDoubtful'))}"
+                    )
                     inspected_latest = True
                 excluded_count += sum(bool(k["isDoubtful"]) for k in logs)
                 result.extend(k["id"] for k in logs if not k["isDoubtful"])
@@ -89,7 +96,9 @@ def get_to_download_runs_ids(session, headers, sport_type):
             time.sleep(1)  # spider rule
             if not last_date:
                 break
-    print(f"Keep candidate totals: accepted={len(result)} doubtful_excluded={excluded_count}")
+    print(
+        f"Keep candidate totals: accepted={len(result)} doubtful_excluded={excluded_count}"
+    )
     return result
 
 
@@ -235,7 +244,9 @@ def get_all_keep_tracks(
                 failed_runs += 1
                 print(f"Something wrong paring keep id {run}" + str(e))
     if failed_runs:
-        raise RuntimeError(f"Failed to parse {failed_runs} Keep activities; sync aborted")
+        raise RuntimeError(
+            f"Failed to parse {failed_runs} Keep activities; sync aborted"
+        )
     return tracks
 
 

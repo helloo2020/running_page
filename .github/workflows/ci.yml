@@ -27,15 +27,14 @@ jobs:
         run: |
           pip install -r requirements-dev.txt
 
-      - name: Run GPX sync test
-        run: |
-           # make sure the gpx_sync.py script is executable 
-           python run_page/gpx_sync.py
-
       - name: Check formatting (black)
-        run: black . --diff --color && black . --check
+        run: black . --check --diff
 
       - name: Lint with Ruff
-        run: |
-          pip install ruff
-          ruff check .
+        run: ruff check .
+
+      - name: Run Keep parsing regressions
+        run: python -m unittest discover -s tests -p test_keep_sync.py
+
+      - name: Run GPX sync test
+        run: python run_page/gpx_sync.py
