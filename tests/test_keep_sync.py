@@ -63,6 +63,25 @@ def activity(route):
 
 
 class KeepSyncTests(unittest.TestCase):
+    def test_candidate_audit_preserves_filter_and_hides_private_details(self):
+        response = Mock(ok=True)
+        response.json.return_value = {"data": {"lastTimestamp": 0, "records": [
+            {"logs": [{"stats": {"id": "synthetic_124_rn", "isDoubtful": True}},
+                      {"stats": {"id": "synthetic_123_rn", "isDoubtful": False}}]},
+        ]}}
+        session = Mock()
+        session.get.return_value = response
+        detail = activity(None)
+        detail["data"]["privateNote"] = "do-not-log-this"
+        with patch.object(keep, "get_single_run_data", return_value=detail), \
+             patch.object(keep.time, "sleep"), patch("builtins.print") as output:
+            ids = keep.get_to_download_runs_ids(session, {}, "running")
+        self.assertEqual(ids, ["synthetic_123_rn"])
+        logs = " ".join(str(call.args) for call in output.call_args_list)
+        self.assertIn("doubtful=True", logs)
+        self.assertIn("doubtful_excluded=1", logs)
+        self.assertNotIn("do-not-log-this", logs)
+
     def parse(self, record):
         return keep.parse_raw_data_to_nametuple(record, [], None, True)
 
