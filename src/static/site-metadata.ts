@@ -15,17 +15,17 @@ const getBasePath = () => {
 };
 
 const data: ISiteMetadataResult = {
-  siteTitle: 'Running Page',
+  siteTitle: '跑步记录 · Scond',
   siteUrl: 'https://run.scond.me/',
   logo: 'https://raw.githubusercontent.com/helloo2020/running_page/master/src/static/duola.png',
-  description: 'My running page',
+  description: '跑过的路，留下的足迹。Scond 的跑步记录。',
   navLinks: [
     {
-      name: 'Summary',
+      name: '统计',
       url: `${getBasePath()}/summary`,
     },
     {
-      name: 'Blog',
+      name: '文章',
       url: 'https://blog.scond.me/',
     },
     {

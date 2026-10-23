@@ -37,13 +37,648 @@ hr {
 }
 
 /* scond-palette-2026-10-23 */
-:root { --page:#fdfdfb; --surface:#f1f3ef; --ink:#202723; --muted:#69716b; --accent:#3e5b4e; --on-accent:#fff; --border:#dce1db; --accent-rgb:62 91 78; color-scheme:light; }
-:root[data-theme="dark"] { --page:#181e1b; --surface:#232c26; --ink:#e8ece6; --muted:#a6b4aa; --accent:#91b39d; --on-accent:#181e1b; --border:#35463a; --accent-rgb:145 179 157; color-scheme:dark; }
-html,body { background:var(--page); color:var(--ink); }
-a:hover { color:var(--accent); }
-button:focus-visible,a:focus-visible,select:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
-button:disabled { opacity:.5; cursor:not-allowed; }
-.theme-toggle { border:1px solid var(--border); border-radius:999px; padding:6px 12px; color:var(--accent); background:var(--surface); min-height:36px; }
-.maplibregl-popup-content,.mapboxgl-popup-content,.maplibregl-ctrl-group,.mapboxgl-ctrl-group { background:var(--surface); color:var(--ink); border:1px solid var(--border); }
-[data-theme="dark"] .maplibregl-ctrl-icon { filter:invert(1); }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none!important; scroll-behavior:auto!important; } }
+:root {
+  --page: #fdfdfb;
+  --surface: #f1f3ef;
+  --ink: #202723;
+  --muted: #69716b;
+  --accent: #3e5b4e;
+  --on-accent: #fff;
+  --border: #dce1db;
+  --accent-rgb: 62 91 78;
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  --page: #181e1b;
+  --surface: #232c26;
+  --ink: #e8ece6;
+  --muted: #a6b4aa;
+  --accent: #91b39d;
+  --on-accent: #181e1b;
+  --border: #35463a;
+  --accent-rgb: 145 179 157;
+  color-scheme: dark;
+}
+html,
+body {
+  background: var(--page);
+  color: var(--ink);
+}
+a:hover {
+  color: var(--accent);
+}
+button:focus-visible,
+a:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.theme-toggle {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  color: var(--accent);
+  background: var(--surface);
+  min-height: 36px;
+}
+.maplibregl-popup-content,
+.mapboxgl-popup-content,
+.maplibregl-ctrl-group,
+.mapboxgl-ctrl-group {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+[data-theme='dark'] .maplibregl-ctrl-icon {
+  filter: invert(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Shared editorial rhythm with scond.me; controls remain sans-serif. */
+:root {
+  --heat-0: #edf0e9;
+  --heat-1: #c6d9c7;
+  --heat-2: #91b69b;
+  --heat-3: #5d8a6e;
+  --heat-4: #345e47;
+}
+:root[data-theme='dark'] {
+  --heat-0: #29372f;
+  --heat-1: #3c5645;
+  --heat-2: #577d63;
+  --heat-3: #7aa487;
+  --heat-4: #afd0b5;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+}
+button,
+select {
+  font: inherit;
+}
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+h1 {
+  font-family: Georgia, 'Songti SC', 'Noto Serif SC', serif;
+  font-size: 36px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+h2 {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+.site-header {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  border-bottom: 1px solid var(--border);
+}
+.site-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font:
+    600 25px Georgia,
+    serif;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.site-brand span {
+  font:
+    400 12px -apple-system,
+    BlinkMacSystemFont,
+    'PingFang SC',
+    sans-serif;
+  color: var(--muted);
+}
+.site-nav {
+  margin-left: auto;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+.site-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  position: relative;
+  color: var(--muted);
+  font-size: 13px;
+}
+.site-nav a[aria-current='page'] {
+  color: var(--accent);
+}
+.site-nav a[aria-current='page']:after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 16px;
+  left: calc(50% - 8px);
+  bottom: 3px;
+  background: var(--accent);
+}
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+.theme-toggle:hover {
+  background: var(--surface);
+}
+.site-main {
+  max-width: 1240px;
+  margin: 0 auto 72px;
+  padding: 48px 40px;
+  min-width: 0;
+}
+.running-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-areas: 'intro map' 'overview map' 'countries history' 'period history';
+  gap: 36px 48px;
+  align-items: start;
+}
+.running-intro {
+  grid-area: intro;
+}
+.running-intro h1 {
+  margin-bottom: 20px;
+}
+.running-intro p {
+  color: var(--muted);
+  font-family: Georgia, 'Songti SC', serif;
+  font-size: 15px;
+  line-height: 2.1;
+  max-width: 450px;
+  margin-bottom: 0;
+}
+.map-section {
+  grid-area: map;
+  min-width: 0;
+}
+.overview-section {
+  grid-area: overview;
+}
+.period-section {
+  grid-area: period;
+}
+.countries-section {
+  grid-area: countries;
+}
+.history-section {
+  grid-area: history;
+  min-width: 0;
+}
+.section-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+  min-height: 40px;
+}
+.section-toolbar h2 {
+  margin: 0;
+}
+.year-filter {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border-radius: 7px;
+  padding: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.year-filter button,
+.year-select {
+  min-height: 34px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
+.year-filter button {
+  padding: 0 13px;
+}
+.year-filter button[aria-pressed='true'],
+.year-select.is-selected {
+  background: var(--page);
+  color: var(--accent);
+  border-color: var(--border);
+}
+.year-select {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.year-select select {
+  appearance: none;
+  background: transparent;
+  padding: 6px 28px 6px 12px;
+  cursor: pointer;
+  color: inherit;
+  border: 0;
+  max-width: 110px;
+  border-radius: 5px;
+}
+.year-select svg {
+  position: absolute;
+  right: 9px;
+  pointer-events: none;
+}
+select option {
+  color: var(--ink);
+  background: var(--page);
+}
+.map-caption {
+  margin-top: 10px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 10px;
+}
+.map-caption i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 5px;
+  border-radius: 2px;
+  background: #769386;
+}
+.maplibregl-ctrl-group:not(:empty) {
+  border: 1px solid var(--border);
+  box-shadow: none;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--page);
+}
+.maplibregl-ctrl-group button {
+  width: 36px;
+  height: 36px;
+}
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--border);
+}
+.maplibregl-ctrl-group button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+.stat-section {
+  border-top: 1px solid var(--border);
+  padding: 20px 0 0;
+}
+.stat-section > p,
+.country-list > p {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.overview-section .stat-section section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 10px;
+}
+.overview-section .stat-section section > div {
+  display: flex;
+  align-items: baseline;
+  padding: 0;
+}
+.overview-section .stat-section section > div > span:first-child {
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+.overview-section .stat-section section > div > span:last-child {
+  font-size: 11px;
+  margin-left: 6px;
+}
+.country-list {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.country-list button:hover {
+  background: var(--surface);
+}
+.text-button {
+  min-height: 40px;
+  color: var(--accent);
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.calendar-year select {
+  background: var(--page);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 9px;
+  font-size: 12px;
+  color: var(--ink);
+  min-height: 38px;
+}
+.calendar-metrics {
+  display: flex;
+  gap: 28px;
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.calendar-metrics strong {
+  display: block;
+  color: var(--ink);
+  font-weight: 400;
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+}
+.calendar-scroll {
+  overflow-x: auto;
+  padding: 5px 2px 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.calendar-chart {
+  min-width: 640px;
+}
+.calendar-months {
+  display: grid;
+  margin: 0 0 9px 24px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.calendar-months span {
+  white-space: nowrap;
+}
+.calendar-body {
+  display: flex;
+  gap: 10px;
+}
+.calendar-weekdays {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--muted);
+  width: 14px;
+  flex-shrink: 0;
+}
+.calendar-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 1fr);
+  gap: 3px;
+  flex: 1;
+}
+.calendar-cell {
+  border-radius: 2px;
+  aspect-ratio: 1;
+  min-width: 0;
+  padding: 0;
+}
+.calendar-cell:disabled {
+  opacity: 1;
+  cursor: default;
+}
+.calendar-cell:not(:disabled):hover,
+.calendar-cell[aria-pressed='true'] {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+.level-0 {
+  background: var(--heat-0);
+}
+.level-1 {
+  background: var(--heat-1);
+}
+.level-2 {
+  background: var(--heat-2);
+}
+.level-3 {
+  background: var(--heat-3);
+}
+.level-4 {
+  background: var(--heat-4);
+}
+.calendar-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.calendar-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.calendar-legend i {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+}
+.calendar-selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  min-height: 45px;
+  margin-top: 6px;
+}
+.route-gallery {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  margin-top: 14px;
+}
+.route-gallery summary {
+  cursor: pointer;
+  font-size: 15px;
+  min-height: 44px;
+}
+.route-gallery summary span {
+  float: right;
+  font-size: 11px;
+  color: var(--muted);
+  padding-top: 3px;
+}
+.route-mosaic {
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+.loading-note {
+  color: var(--muted);
+  padding: 20px;
+}
+@media (max-width: 1023px) {
+  .site-header {
+    padding: 16px 24px;
+  }
+  .site-main {
+    padding: 28px 24px;
+  }
+  .running-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: 'intro intro' 'map map' 'overview period' 'history history' 'countries countries';
+    gap: 28px 24px;
+  }
+  .running-intro h1 {
+    font-size: 30px;
+    margin-bottom: 12px;
+  }
+  .running-intro p {
+    font-size: 14px;
+    max-width: 620px;
+  }
+  .section-toolbar {
+    margin-bottom: 14px;
+  }
+  .history-section {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+  .maplibregl-ctrl-group button {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media (max-width: 600px) {
+  .site-header {
+    padding: 12px 20px;
+    gap: 10px;
+  }
+  .site-brand {
+    font-size: 22px;
+  }
+  .site-brand span {
+    display: none;
+  }
+  .site-nav {
+    gap: 17px;
+  }
+  .site-nav a {
+    font-size: 12px;
+  }
+  .theme-toggle {
+    width: 32px;
+  }
+  .site-main {
+    padding: 26px 20px;
+  }
+  .running-layout {
+    gap: 26px 20px;
+  }
+  .running-intro h1 {
+    font-size: 28px;
+  }
+  .running-intro p {
+    font-size: 13px;
+  }
+  h2 {
+    font-size: 15px;
+  }
+  .section-toolbar {
+    gap: 8px;
+  }
+  .year-filter button,
+  .year-select {
+    min-height: 38px;
+  }
+  .overview-section .stat-section section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .overview-section .stat-section section > div > span:first-child {
+    font-size: 28px;
+  }
+  .stat-section button > span {
+    font-size: 11px;
+  }
+  .stat-section button {
+    min-height: 36px;
+    gap: 6px;
+  }
+  .calendar-metrics {
+    gap: 24px;
+  }
+  .calendar-metrics strong {
+    font-size: 24px;
+  }
+  .calendar-hint {
+    font-size: 9px;
+  }
+  .map-caption {
+    font-size: 9px;
+    gap: 8px;
+  }
+}
+@media (max-width: 350px) {
+  .site-header {
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .site-nav {
+    gap: 13px;
+  }
+  .site-main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .running-layout {
+    gap: 24px 16px;
+  }
+  .site-brand {
+    font-size: 20px;
+  }
+}
+
+.calendar-total {
+  margin: -6px 0 20px;
+  color: var(--muted);
+  font-size: 11px;
+}

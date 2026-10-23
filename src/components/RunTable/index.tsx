@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   sortDateFunc,
   sortDateFuncReverse,
@@ -6,7 +6,7 @@ import {
   Activity,
   RunIds,
 } from '@/utils/utils';
-import { SHOW_ELEVATION_GAIN } from "@/utils/const";
+import { SHOW_ELEVATION_GAIN } from '@/utils/const';
 
 import RunRow from './RunRow';
 import styles from './style.module.css';
@@ -62,17 +62,25 @@ const RunTable = ({
     ['Time', sortRunTimeFunc],
     ['Date', sortDateFuncClick],
   ]);
-  if (!SHOW_ELEVATION_GAIN){
-    sortFuncMap.delete('Elevation Gain')
+  if (!SHOW_ELEVATION_GAIN) {
+    sortFuncMap.delete('Elevation Gain');
   }
 
-  const handleClick: React.MouseEventHandler<HTMLElement> = (e) => {
-    const funcName = (e.target as HTMLElement).innerHTML;
+  const handleClick = (funcName: string) => {
     const f = sortFuncMap.get(funcName);
 
     setRunIndex(-1);
     setSortFuncInfo(sortFuncInfo === funcName ? '' : funcName);
-    setActivity(runs.sort(f));
+    setActivity([...runs].sort(f));
+  };
+
+  const labels: Record<string, string> = {
+    KM: '距离 km',
+    'Elevation Gain': '爬升 m',
+    Pace: '配速 /km',
+    BPM: '心率',
+    Time: '用时',
+    Date: '日期',
   };
 
   return (
@@ -80,10 +88,12 @@ const RunTable = ({
       <table className={styles.runTable} cellSpacing="0" cellPadding="0">
         <thead>
           <tr>
-            <th />
+            <th scope="col">活动</th>
             {Array.from(sortFuncMap.keys()).map((k) => (
-              <th key={k} onClick={handleClick}>
-                {k}
+              <th key={k} scope="col">
+                <button type="button" onClick={() => handleClick(k)}>
+                  {labels[k]} <span aria-hidden="true">↕</span>
+                </button>
               </th>
             ))}
           </tr>

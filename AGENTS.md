@@ -34,3 +34,8 @@ Then check `git status --short` and protect unrelated user changes.
 - Keep this a simple personal running homepage. Favor privacy, reliability, and maintainability over feature expansion.
 - For new features, first answer: who needs it, whether it belongs to the current sprint, the smallest useful version, and data/privacy/deployment risks.
 - For small copy fixes or scoped UI bugs, proceed after reading project memory and related code.
+
+
+## Visual polish request · 2026-10-23
+
+Tim wants run.scond.me to match scond.me consistently on desktop and especially mobile: restrained forest-green/near-white light/dark palette, coherent navigation icons, Chinese interface labels, refined map fills and boundaries, selection controls and charts. Keep the public activity/route data and privacy mode intact. The current comprehensive refinement is a local preview awaiting visual review, not a Production release authorization.

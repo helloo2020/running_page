@@ -14,27 +14,29 @@ const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
     const priorityB = priorities.indexOf(periodB);
 
     if (priorityA !== priorityB) {
-      return (priorityA === -1 ? priorities.length : priorityA) -
-        (priorityB === -1 ? priorities.length : priorityB);
+      return (
+        (priorityA === -1 ? priorities.length : priorityA) -
+        (priorityB === -1 ? priorities.length : priorityB)
+      );
     }
     return countB - countA;
   });
   return (
-    <div className="h-full rounded-xl border border-[rgb(var(--accent-rgb))]/20 bg-[var(--surface)] p-4 lg:h-auto">
+    <div className="stat-section">
       <p className="mb-3 text-sm font-semibold text-[var(--muted)]">运动类型</p>
       <section>
         {periodArr.map(([period, times]) => (
           <button
             key={period}
             type="button"
-            className="flex w-full items-baseline justify-between py-1 text-left"
+            className="flex w-full items-baseline justify-between py-2 text-left"
             onClick={() => onClick(period)}
           >
-            <span className="text-sm font-semibold italic text-[var(--ink)]">
+            <span className="text-sm font-medium text-[var(--ink)]">
               {period}
             </span>
             <span className="text-xs font-medium text-[rgb(var(--accent-rgb))]">
-              {times} Runs
+              {times} 次
             </span>
           </button>
         ))}

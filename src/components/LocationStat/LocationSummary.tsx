@@ -5,7 +5,7 @@ import useActivities from '@/hooks/useActivities';
 const LocationSummary = () => {
   const { years, countries, provinces, cities } = useActivities();
   return (
-    <div className="h-full rounded-xl border border-[rgb(var(--accent-rgb))]/20 bg-[var(--surface)] p-4 lg:h-auto lg:flex-1">
+    <div className="stat-section">
       <p className="mb-3 text-sm font-semibold text-[var(--muted)]">我的统计</p>
       <section>
         {years ? (

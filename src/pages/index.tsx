@@ -9,7 +9,6 @@ import RunTable from '@/components/RunTable';
 import SVGStat from '@/components/SVGStat';
 import YearFilter from '@/components/YearFilter';
 import useActivities from '@/hooks/useActivities';
-import useSiteMetadata from '@/hooks/useSiteMetadata';
 import { IS_CHINESE } from '@/utils/const';
 import {
   Activity,
@@ -27,19 +26,15 @@ import {
 } from '@/utils/utils';
 
 const worldView = (): IViewState => {
-  if (typeof window === 'undefined') {
-    return { longitude: 105, latitude: 45, zoom: 0.8 };
-  }
-  if (window.innerWidth < 1024) {
-    return { longitude: 105, latitude: 45, zoom: 0 };
-  }
-  const containerWidth = Math.max(500, (window.innerWidth - 128) * (2 / 3));
-  const zoom = Math.min(1.3, Math.max(0.5, Math.log2(containerWidth / 512)));
-  return { longitude: 105, latitude: 45, zoom };
+  const viewport = typeof window === 'undefined' ? 1280 : window.innerWidth;
+  const width =
+    viewport >= 1024
+      ? Math.min(1240, viewport) - 408
+      : viewport - (viewport > 600 ? 48 : viewport <= 350 ? 32 : 40);
+  return { longitude: 0, latitude: 24, zoom: Math.log2(width / 540) };
 };
 
 const Index = () => {
-  const { siteTitle } = useSiteMetadata();
   const { activities, thisYear } = useActivities();
   const [year, setYear] = useState('Total');
   const [displayedYear, setDisplayedYear] = useState(thisYear);
@@ -66,7 +61,11 @@ const Index = () => {
     scrollToMap();
     setActivity(filterAndSortRuns(activities, item, func, sortDateFunc));
     setRunIndex(-1);
-    setTitle(`${item} ${name} Running Heatmap`);
+    setTitle(
+      item === 'Total'
+        ? ''
+        : `${item}${name === 'Year' ? ' 年' : ''} · 活动记录`
+    );
   };
 
   const changeYear = (y: string) => {
@@ -201,86 +200,84 @@ const Index = () => {
   }, [year]);
 
   return (
-    <Layout
-      headerActions={
-        <YearFilter
-          year={year}
-          displayedYear={displayedYear}
-          onChange={changeYear}
-          className="hidden lg:flex"
-        />
-      }
-      contentClassName="flex flex-wrap lg:grid lg:grid-cols-[1fr_2fr] lg:[grid-template-areas:'title_map''info_map''left_svg']"
-    >
-      <div className="w-full lg:[grid-area:title]">
-        <h1 className="my-8 hidden text-4xl font-extrabold italic lg:my-12 lg:block lg:text-5xl">
-          <a href="/">{siteTitle}</a>
-        </h1>
-      </div>
-      <div className="w-full lg:[grid-area:map]">
+    <Layout contentClassName="running-layout">
+      <section className="running-intro">
+        <h1>跑步记录</h1>
+        <p>
+          希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
+        </p>
+      </section>
+      <section className="map-section" aria-label="跑步足迹">
+        <div className="section-toolbar">
+          <h2>跑过的地方</h2>
+          <YearFilter
+            year={year}
+            displayedYear={displayedYear}
+            onChange={changeYear}
+          />
+        </div>
         <RunMap
           title={title}
           viewState={viewState}
           geoData={geoData}
           setViewState={setViewState}
-          year={year}
-          displayedYear={displayedYear}
-          changeYear={changeYear}
         />
-        <p className="mb-8 mt-6 text-sm leading-relaxed text-[#f4f4f4] lg:hidden">
-          希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
-          <br />
-          Yesterday you said tomorrow.
-        </p>
-      </div>
+        <div className="map-caption">
+          <span>
+            <i
+              style={
+                (viewState.zoom ?? 0) > 3
+                  ? { background: '#a44922' }
+                  : undefined
+              }
+            />{' '}
+            {(viewState.zoom ?? 0) > 3 ? '活动路线' : '跑过的国家与省份'}
+          </span>
+          <span>可拖动、缩放地图</span>
+        </div>
+      </section>
       {IS_CHINESE && (
         <>
-          <div className="w-1/2 pr-2 lg:flex lg:w-auto lg:flex-col lg:pr-16 lg:[grid-area:info]">
-            <section className="mb-10 hidden lg:block">
-              <p className="leading-relaxed">
-                希望随着时间推移，地图点亮的地方越来越多。不要停下来，不要停下奔跑的脚步。
-                <br />
-                Yesterday you said tomorrow.
-              </p>
-            </section>
+          <div className="overview-section">
             <LocationSummary />
           </div>
-          <div className="contents lg:flex lg:flex-col lg:gap-4 lg:pr-16 lg:[grid-area:left]">
-            <div className="w-1/2 pl-2 lg:mt-4 lg:w-auto lg:pl-0">
-              <PeriodStat onClick={changeTitle} />
-            </div>
-            <div className="w-full">
-              <CountriesStat
-                onCityClick={changeCity}
-                selectedCity={selectedCity}
-              />
-            </div>
+          <div className="period-section">
+            <PeriodStat onClick={changeTitle} />
+          </div>
+          <div className="countries-section">
+            <CountriesStat
+              onCityClick={changeCity}
+              selectedCity={selectedCity}
+            />
           </div>
         </>
       )}
-      <div
-        className={`w-full lg:[grid-area:svg] ${
-          year === 'Total' && !hasDetailFilter
-            ? 'lg:max-h-[1120px] lg:overflow-y-auto'
-            : ''
-        }`}
-      >
+      <section className="history-section">
         {year === 'Total' && !hasDetailFilter ? (
-          <SVGStat />
+          <SVGStat locateActivity={locateActivity} />
         ) : (
-          <RunTable
-            runs={runs}
-            locateActivity={locateActivity}
-            setActivity={setActivity}
-            runIndex={runIndex}
-            setRunIndex={setRunIndex}
-          />
+          <>
+            <div className="section-toolbar">
+              <h2>{title || '活动记录'}</h2>
+              <button
+                className="text-button"
+                onClick={() => changeYear('Total')}
+              >
+                查看全部
+              </button>
+            </div>
+            <RunTable
+              runs={runs}
+              locateActivity={locateActivity}
+              setActivity={setActivity}
+              runIndex={runIndex}
+              setRunIndex={setRunIndex}
+            />
+          </>
         )}
-      </div>
-      {/* Enable Audiences in Vercel Analytics: https://vercel.com/docs/concepts/analytics/audiences/quickstart */}
-      {import.meta.env.VERCEL && <Analytics /> }
+      </section>
+      {import.meta.env.VERCEL && <Analytics />}
     </Layout>
   );
 };
-
 export default Index;

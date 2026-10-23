@@ -35,3 +35,8 @@ Use homepage palette version `scond-palette-2026-10-23` in local theme definitio
 ## 2026-10-23 · Same-tab navigation and home return
 
 Tim approved same-tab navigation between scond.me, blog.scond.me, read.scond.me and run.scond.me. Keep explicit visible `主页` links to https://scond.me/ on subsite primary surfaces and standalone reading shares; preserve them on narrow viewports. Keep `首页`/`跑步首页` scoped to their own subsite so return targets stay unambiguous. This does not merge apps or expand data permissions. Formal Production publication was authorized in this chat.
+
+
+## 2026-10-23 · Running visual refinement implementation
+
+Local preview decision: keep MapLibre/Recharts and the existing public data pipeline. Separate polygon outlines from route strokes so geography can use thin borders independently. Move year selection out of the map. Render the activity calendar as a readable React view of existing public activity data instead of shrinking an entire multi-year SVG; retain all years, day-to-route selection and the original long-distance SVG as an on-demand disclosure. Use Chinese interface labels and the shared Scond header across home and summary. No new backend, dependency, geography source or private-data access. Production release still requires explicit authorization; this iteration awaits Tim's visual review.

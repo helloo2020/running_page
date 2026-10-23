@@ -38,7 +38,7 @@ const titleForShow = (run: Activity): string => {
   if (run.name) {
     name = run.name;
   }
-  return `${name} ${date} ${distance} KM ${!run.summary_polyline ? '(No map data for this run)' : ''
+  return `${name} ${date} ${distance} km ${!run.summary_polyline ? '(暂无路线)' : ''
     }`;
 };
 
@@ -75,10 +75,14 @@ const formatRunTime = (moving_time: string): string => {
 
 // for scroll to the map
 const scrollToMap = () => {
-  const el = document.querySelector('.fl.w-100.w-70-l');
-  const rect = el?.getBoundingClientRect();
-  if (rect) {
-    window.scroll(rect.left + window.scrollX, rect.top + window.scrollY);
+  const el = document.querySelector<HTMLElement>('.map-section');
+  if (!el) return;
+  const rect = el.getBoundingClientRect();
+  if (rect.top < 0 || rect.bottom > window.innerHeight) {
+    el.scrollIntoView({
+      block: 'start',
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    });
   }
 };
 
@@ -295,7 +299,7 @@ const titleForRun = (run: Activity): string => {
       return run.name;
     }
     // 2. try to use location+type if the location is available, eg. 'Shanghai Run'
-    const { city, province } = locationForRun(run);
+    const { city } = locationForRun(run);
     const activity_sport = getActivitySport(run);
     if (city && city.length > 0 && activity_sport.length > 0) {
       return `${city} ${activity_sport}`;

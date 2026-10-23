@@ -1,48 +1,54 @@
 import { useTheme } from '@/hooks/useTheme';
-import { Link } from 'react-router-dom';
-import { ReactNode } from 'react';
-import useSiteMetadata from '@/hooks/useSiteMetadata';
+import { Link, NavLink } from 'react-router-dom';
 
-const Header = ({ actions }: { actions?: ReactNode }) => {
+const Header = () => {
   const { theme, toggleTheme } = useTheme();
-  const { logo, siteUrl, navLinks } = useSiteMetadata();
-
   return (
-    <>
-      <nav className="mt-4 flex w-full items-center justify-between px-4 lg:mt-12 lg:px-16">
-        <div className="shrink-0">
-          <Link to={siteUrl} className="flex items-center gap-2 lg:gap-3">
-            <picture>
-              <img
-                className="h-11 w-11 rounded-full lg:h-16 lg:w-16"
-                alt="logo"
-                src={logo}
-              />
-            </picture>
-            <span className="text-xl font-bold italic text-[rgb(var(--accent-rgb))] lg:text-2xl">
-              Scond
-            </span>
-          </Link>
-        </div>
-        <div className="flex flex-wrap items-center justify-end gap-2 text-right lg:gap-4">
-          {actions}
-          <button type="button" className="theme-toggle" onClick={toggleTheme} aria-label={theme === 'dark' ? '切换浅色模式' : '切换深色模式'}>{theme === 'dark' ? '浅色' : '深色'}</button>
-          <div className="flex items-center gap-3 lg:gap-4">
-            {navLinks.map((n, i) => (
-              <a
-                key={i}
-                href={n.url}
-                target="_self"
-                className={n.name === '主页' ? 'theme-toggle content-center text-sm' : 'min-h-[44px] content-center text-base lg:min-h-0'}
-              >
-                {n.name}
-              </a>
-            ))}
-          </div>
-        </div>
+    <header className="site-header">
+      <Link to="/" className="site-brand" aria-label="Scond 跑步首页">
+        Scond<span>跑步</span>
+      </Link>
+      <nav aria-label="主导航" className="site-nav">
+        <a href="https://scond.me/" target="_self">
+          主页
+        </a>
+        <NavLink to="/" end>
+          足迹
+        </NavLink>
+        <NavLink to="/summary">统计</NavLink>
+        <a href="https://blog.scond.me/" target="_self">
+          文章
+        </a>
       </nav>
-    </>
+      <button
+        type="button"
+        className="theme-toggle"
+        onClick={toggleTheme}
+        aria-label={theme === 'dark' ? '切换浅色模式' : '切换深色模式'}
+        title={theme === 'dark' ? '切换浅色模式' : '切换深色模式'}
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          {theme === 'dark' ? (
+            <>
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" />
+            </>
+          ) : (
+            <path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z" />
+          )}
+        </svg>
+      </button>
+    </header>
   );
 };
-
 export default Header;

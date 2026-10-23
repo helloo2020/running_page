@@ -26,7 +26,10 @@ export const loadSvgComponent = async (
         const colors = getComputedStyle(document.documentElement);
         const mappings: Record<string, string> = {
           '#e1ed5e': colors.getPropertyValue('--accent').trim(),
-          '#444444': colors.getPropertyValue('--border').trim(),
+          '#444444': colors.getPropertyValue('--heat-0').trim(),
+          yellow: '#ad8652',
+          red: '#b87965',
+          '#4dd2ff': '#729d8a',
           gray: colors.getPropertyValue('--muted').trim(),
           '#e0ed5e': colors.getPropertyValue('--accent').trim(),
           '#d8ff5f': colors.getPropertyValue('--accent').trim(),
@@ -38,6 +41,32 @@ export const loadSvgComponent = async (
           '#ffffff': colors.getPropertyValue('--ink').trim(),
           '#fff': colors.getPropertyValue('--ink').trim(),
         };
+        const labels: Record<string, string> = {
+          'Over 10km Runs': '长距离路线',
+          'Runner Month of Life': '月度足迹',
+          Runner: '跑者',
+          'SPECIAL TRACKS': '特别记录',
+          STATISTICS: '统计',
+          'Over 10.0 km': '超过 10 公里',
+          'Over 20.0 km': '超过 20 公里',
+          'Over 40.0 km': '超过 40 公里',
+        };
+        root.querySelectorAll('text').forEach((node) => {
+          const original =
+            node.getAttribute('data-original-text') ?? node.textContent ?? '';
+          node.setAttribute('data-original-text', original);
+          node.textContent =
+            labels[original] ??
+            original
+              .replace(/^Number:/, '次数：')
+              .replace(/^Weekly:/, '每周：')
+              .replace(/^Total:/, '累计：')
+              .replace(/^Avg:/, '平均：')
+              .replace(/^Min:/, '最短：')
+              .replace(/^Max:/, '最长：');
+          node.style.fontFamily =
+            '-apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif';
+        });
         root
           .querySelectorAll<SVGElement>('[fill], [stroke]')
           .forEach((node) => {

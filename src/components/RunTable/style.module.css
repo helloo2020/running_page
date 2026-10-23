@@ -58,7 +58,6 @@
 }
 
 @media only screen and (max-width: 700px) {
-
   /* 手机端隐藏心率与用时，每条记录显示为一行 */
   .runTable th:nth-child(4),
   .runTable td:nth-child(4),
@@ -108,5 +107,45 @@
       color: var(--muted);
       font-size: 0.75rem;
     }
+  }
+}
+
+.runTable {
+  margin: 8px 0 32px;
+  color: var(--ink);
+  font-size: 12px;
+}
+.runTable th {
+  white-space: nowrap;
+  font-weight: 400;
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
+}
+.runTable th:first-child {
+  text-align: left;
+}
+.runTable th button {
+  min-height: 36px;
+}
+.runRow td {
+  border-bottom: 1px solid var(--border);
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.selected {
+  background: var(--surface);
+}
+@media (max-width: 700px) {
+  .runRow {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+  .runRow td:first-child {
+    max-width: 100%;
+    flex: 1 1 calc(100% - 105px);
+  }
+  .runRow td:last-child {
+    flex-basis: 100%;
+    text-align: left;
   }
 }
