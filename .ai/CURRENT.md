@@ -9,7 +9,9 @@ Last updated: 2026-10-23
 - Pinned Black 26.10.1 and Ruff 0.17.2 in development requirements. Black explicitly targets Python 3.11, the oldest CI runtime. Formatting/lint now run before GPX, and the ten synthetic Keep regressions also run in CI.
 - The GPX CI check now runs the real entry point in a temporary code-only copy with a synthetic GPX. It verifies SQLite/JSON persistence and repeat-run deduplication, replacing only external reverse geocoding. CI no longer rescans personal activity files for this smoke check.
 - Local validation: all 50 Python files pass Black, Ruff passes, all eleven tests pass (ten Keep regressions plus GPX persistence/deduplication), Vite production build passes, and `git diff --check` passes. The local pnpm launcher could not run against the reused dependency directory; the build script's underlying `vite build` completed successfully.
-- Remote matrix verification and production release are pending. Work is isolated from the original checkout and its existing `.ai/CURRENT.md` edit. No activity data or credentials are included in the repair commit.
+- Remote validation: branch CI `39889804467` and master CI `39890063286` succeeded on Python 3.11/3.12/3.13. Master Run Data Sync `39890063382` also succeeded, including its existing GitHub Pages release. Repair commits are `5773fe0` and `55a6277`.
+- Production deployment `dpl_Azs9z99YKL16ECZ4aSXgy5b9PH2X` for `55a6277` is READY and aliases `run.scond.me`. Browser verification confirmed the homepage, 2025 year selection, and Total view. The prior production deployment remains available for rollback.
+- Work is isolated in `/private/tmp/running-page-ci-release-shallow-20261023`; the original checkout and its existing `.ai/CURRENT.md` edit are preserved. No activity data or credentials are included in the repair commits. Notification settings and normal sync schedules are unchanged.
 
 ## 2026-10-23 · Keep sync repair released and verified
 
