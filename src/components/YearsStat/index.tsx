@@ -39,8 +39,8 @@ const YearsStat = ({ year, onClick, compact = false }: IYearsStatProps) => {
                 aria-selected={selected}
                 className={`min-h-[44px] shrink-0 rounded-full border px-4 text-sm font-semibold transition-colors ${
                   selected
-                    ? 'border-[#e0ed5e] bg-[#e0ed5e] text-[#1a1a1a]'
-                    : 'border-[#e0ed5e]/30 text-[#cccccc]'
+                    ? 'border-[rgb(var(--accent-rgb))] bg-[rgb(var(--accent-rgb))] text-[var(--on-accent)]'
+                    : 'border-[rgb(var(--accent-rgb))]/30 text-[var(--muted)]'
                 }`}
                 onClick={() => onClick(item)}
               >

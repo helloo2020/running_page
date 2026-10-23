@@ -114,20 +114,20 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ period, summary, dailyDista
                     <div className={styles.chart} style={{ height: '250px', width: '100%' }}>
                         <ResponsiveContainer>
                             <BarChart data={data} margin={{ top: 20, right: 20, left: -20, bottom: 5 }}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                                <XAxis dataKey="day" tick={{ fill: 'rgb(204, 204, 204)' }} />
+                                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                                <XAxis dataKey="day" tick={{ fill: 'var(--muted)' }} />
                                 <YAxis
-                                    label={{ value: 'km', angle: -90, position: 'insideLeft', fill: 'rgb(204, 204, 204)' }}
+                                    label={{ value: 'km', angle: -90, position: 'insideLeft', fill: 'var(--muted)' }}
                                     domain={[0, yAxisMax]}
                                     ticks={yAxisTicks}
-                                    tick={{ fill: 'rgb(204, 204, 204)' }}
+                                    tick={{ fill: 'var(--muted)' }}
                                 />
                                 <Tooltip
                                     formatter={(value) => `${value} km`}
-                                    contentStyle={{ backgroundColor: 'rgb(36, 36, 36)', border: '1px solid #444', color: 'rgb(204, 204, 204)' }}
-                                    labelStyle={{ color: 'rgb(224, 237, 94)' }}
+                                    contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--muted)' }}
+                                    labelStyle={{ color: 'var(--accent)' }}
                                 />
-                                <Bar dataKey="distance" fill="rgb(224, 237, 94)" />
+                                <Bar dataKey="distance" fill="var(--accent)" />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>

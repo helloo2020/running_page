@@ -2,11 +2,11 @@
   width: 100%;
   font-variant: tabular-nums;
   margin: 2rem 0 5rem 0;
-  color: rgb(204, 204, 204);
-  background-color: rgb(26, 26, 26);
+  color: var(--muted);
+  background-color: var(--page);
 
   :is(thead) {
-    color: rgb(204, 204, 204);
+    color: var(--muted);
     text-align: right;
 
     :is(th) {
@@ -28,12 +28,12 @@
   }
 
   &:hover {
-    background-color: lighten(rgb(26, 26, 26), 3%);
+    background-color: var(--surface);
   }
 }
 
 .selected {
-  color: rgb(224, 237, 94);
+  color: var(--accent);
 }
 
 .tableContainer {
@@ -42,7 +42,7 @@
 }
 
 .runDate {
-  color: rgb(204, 204, 204);
+  color: var(--muted);
 }
 
 .mobileLabel {
@@ -52,7 +52,7 @@
 @media only screen and (max-width: 700px) {
   .mobileLabel {
     display: inline;
-    color: rgb(204, 204, 204);
+    color: var(--muted);
     font-size: 0.75rem;
   }
 }
@@ -85,7 +85,7 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.7rem 0;
-    border-bottom: 1px solid rgb(224 237 94 / 15%);
+    border-bottom: 1px solid var(--border);
 
     :is(td) {
       padding: 0;
@@ -105,7 +105,7 @@
     }
 
     :is(td):last-child {
-      color: rgb(204, 204, 204);
+      color: var(--muted);
       font-size: 0.75rem;
     }
   }

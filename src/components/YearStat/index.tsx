@@ -69,12 +69,12 @@ const YearStat = ({ year, onClick, compact = false }: IYearStatProps) => {
   if (compact) {
     return (
       <section
-        className="grid grid-cols-2 gap-x-5 gap-y-5 border border-[#e0ed5e]/20 bg-white/[0.02] p-5"
+        className="grid grid-cols-2 gap-x-5 gap-y-5 border border-[rgb(var(--accent-rgb))]/20 bg-[var(--surface)] p-5"
         aria-label={`${year} running summary`}
       >
-        <div className="col-span-2 border-b border-[#e0ed5e]/15 pb-4">
+        <div className="col-span-2 border-b border-[rgb(var(--accent-rgb))]/15 pb-4">
           <span className="text-4xl font-bold italic">{year}</span>
-          <span className="ml-2 text-base font-semibold italic text-[#cccccc]">
+          <span className="ml-2 text-base font-semibold italic text-[var(--muted)]">
             Journey
           </span>
         </div>
@@ -83,7 +83,7 @@ const YearStat = ({ year, onClick, compact = false }: IYearStatProps) => {
             <div className="text-2xl font-bold italic tabular-nums">
               {intComma(metric.value.toString())}
             </div>
-            <div className="mt-1 text-xs font-semibold uppercase tracking-wide text-[#cccccc]">
+            <div className="mt-1 text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
               {metric.label}
             </div>
           </div>

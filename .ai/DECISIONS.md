@@ -25,3 +25,8 @@ Decision: Do not run destructive data cleanup commands without explicit confirma
 Reason: The project contains local generated activity outputs and a SQLite database that may be difficult to recreate safely.
 
 Impact: Commands such as `pnpm run clean` and `pnpm run data:clean` require explicit Tim confirmation before execution.
+
+
+## 2026-10-23 · Shared Scond palette
+
+Use homepage palette version `scond-palette-2026-10-23` in local theme definitions, keeping each project's existing framework and content structure. Default to light and preserve explicit dark preference in each origin independently. Charts, maps and share images participate in the same theme; semantic multi-series colors and source photographs remain distinct. No cross-domain theme service, dependency upgrade or backend/schema changes. Production publication requires separate explicit authorization.

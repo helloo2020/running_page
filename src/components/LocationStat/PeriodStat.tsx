@@ -20,8 +20,8 @@ const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
     return countB - countA;
   });
   return (
-    <div className="h-full rounded-xl border border-[#e0ed5e]/20 bg-[#252525] p-4 lg:h-auto">
-      <p className="mb-3 text-sm font-semibold text-[#cccccc]">运动类型</p>
+    <div className="h-full rounded-xl border border-[rgb(var(--accent-rgb))]/20 bg-[var(--surface)] p-4 lg:h-auto">
+      <p className="mb-3 text-sm font-semibold text-[var(--muted)]">运动类型</p>
       <section>
         {periodArr.map(([period, times]) => (
           <button
@@ -30,10 +30,10 @@ const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
             className="flex w-full items-baseline justify-between py-1 text-left"
             onClick={() => onClick(period)}
           >
-            <span className="text-sm font-semibold italic text-[#f4f4f4]">
+            <span className="text-sm font-semibold italic text-[var(--ink)]">
               {period}
             </span>
-            <span className="text-xs font-medium text-[#e0ed5e]">
+            <span className="text-xs font-medium text-[rgb(var(--accent-rgb))]">
               {times} Runs
             </span>
           </button>

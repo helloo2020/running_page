@@ -5,16 +5,16 @@ import useActivities from '@/hooks/useActivities';
 const LocationSummary = () => {
   const { years, countries, provinces, cities } = useActivities();
   return (
-    <div className="h-full rounded-xl border border-[#e0ed5e]/20 bg-[#252525] p-4 lg:h-auto lg:flex-1">
-      <p className="mb-3 text-sm font-semibold text-[#cccccc]">我的统计</p>
+    <div className="h-full rounded-xl border border-[rgb(var(--accent-rgb))]/20 bg-[var(--surface)] p-4 lg:h-auto lg:flex-1">
+      <p className="mb-3 text-sm font-semibold text-[var(--muted)]">我的统计</p>
       <section>
         {years ? (
           <Stat
             value={years.length}
             description=" 年里我跑过"
             citySize={4}
-            valueClassName="text-[#e0ed5e]"
-            descriptionClassName="text-sm text-[#cccccc]"
+            valueClassName="text-[var(--ink)]"
+            descriptionClassName="text-sm text-[var(--muted)]"
           />
         ) : null}
         {countries ? (
@@ -22,8 +22,8 @@ const LocationSummary = () => {
             value={countries.length}
             description=" 个国家"
             citySize={4}
-            valueClassName="text-[#e0ed5e]"
-            descriptionClassName="text-sm text-[#cccccc]"
+            valueClassName="text-[var(--ink)]"
+            descriptionClassName="text-sm text-[var(--muted)]"
           />
         ) : null}
         {provinces ? (
@@ -31,8 +31,8 @@ const LocationSummary = () => {
             value={provinces.length}
             description=" 个省份"
             citySize={4}
-            valueClassName="text-[#e0ed5e]"
-            descriptionClassName="text-sm text-[#cccccc]"
+            valueClassName="text-[var(--ink)]"
+            descriptionClassName="text-sm text-[var(--muted)]"
           />
         ) : null}
         {cities ? (
@@ -40,8 +40,8 @@ const LocationSummary = () => {
             value={Object.keys(cities).length}
             description=" 个城市"
             citySize={4}
-            valueClassName="text-[#e0ed5e]"
-            descriptionClassName="text-sm text-[#cccccc]"
+            valueClassName="text-[var(--ink)]"
+            descriptionClassName="text-sm text-[var(--muted)]"
           />
         ) : null}
       </section>

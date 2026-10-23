@@ -1,7 +1,7 @@
 .activityList {
   padding: 20px;
-  background-color: rgb(26, 26, 26);
-  color: rgb(224, 237, 94);
+  background-color: var(--page);
+  color: var(--accent);
 }
 
 .filterContainer {
@@ -14,9 +14,9 @@
 .filterContainer select {
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid #444;
-  background-color: rgb(36, 36, 36);
-  color: rgb(204, 204, 204);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--muted);
   cursor: pointer;
 }
 
@@ -28,8 +28,8 @@
 }
 
 .activityCard {
-  background-color: rgb(36, 36, 36);
-  border: 1px solid #444;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 16px;
   width: 280px;
@@ -39,38 +39,38 @@
 
 .activityCard:hover {
   transform: translateY(-5px);
-  background-color: lighten(rgb(26, 26, 26), 3%);
+  background-color: var(--surface);
 }
 
 .activityName {
   font-size: 1.5em;
   margin-bottom: 10px;
-  color: rgb(224, 237, 94);
+  color: var(--accent);
 }
 
 .activityDetails p {
   margin: 8px 0;
-  color: rgb(204, 204, 204);
+  color: var(--muted);
 }
 
 .activityDetails strong {
-  color: rgb(224, 237, 94);
+  color: var(--accent);
 }
 
 .chart {
   height: 100px;
-  background-color: rgb(46, 46, 46);
+  background-color: var(--surface);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 10px;
-  color: rgb(204, 204, 204);
+  color: var(--muted);
 }
 
 .smallHomeButton {
     padding: 4px 12px;
-    background-color: rgb(224, 237, 94);
-    color: #000;
+    background-color: var(--accent);
+    color: var(--on-accent);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -80,7 +80,7 @@
 }
 
 .smallHomeButton:hover {
-    background-color: rgb(204, 217, 74);
+    background-color: var(--accent);
 }
 
 .lifeContainer {

@@ -17,8 +17,8 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
   );
 
   return (
-    <section className="border-b border-[#e0ed5e]/30 py-3 lg:pb-2 lg:pl-4">
-      <p className="mb-3 text-sm font-semibold text-[#cccccc]">跑过的国家</p>
+    <section className="border-b border-[rgb(var(--accent-rgb))]/30 py-3 lg:pb-2 lg:pl-4">
+      <p className="mb-3 text-sm font-semibold text-[var(--muted)]">跑过的国家</p>
       <div className="flex flex-wrap gap-2">
         {countries.map(([country, cities]) => {
           const cityEntries = Object.entries(cities).sort(
@@ -34,7 +34,7 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
               : `${cityEntries.length}城，${km}KM`
             : `${km}KM`;
           const cardClassName =
-            'flex w-auto items-center gap-1.5 rounded-full border border-[#e0ed5e]/25 bg-[#252525] px-3 py-1 text-left';
+            'flex w-auto items-center gap-1.5 rounded-full border border-[rgb(var(--accent-rgb))]/25 bg-[var(--surface)] px-3 py-1 text-left';
 
           return (
             <div key={country} className="contents">
@@ -42,7 +42,7 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
                 <button
                   type="button"
                   aria-expanded={expanded}
-                  className={`${cardClassName} transition-colors hover:border-[#e0ed5e]/60`}
+                  className={`${cardClassName} transition-colors hover:border-[rgb(var(--accent-rgb))]/60`}
                   onClick={() =>
                     setExpandedCountry(expanded ? undefined : country)
                   }
@@ -50,14 +50,14 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
                   <span className="text-sm font-bold italic">
                     {country}
                   </span>
-                  <span className="text-xs text-[#cccccc]">{mobileLabel}</span>
+                  <span className="text-xs text-[var(--muted)]">{mobileLabel}</span>
                 </button>
               ) : (
                 <div className={cardClassName}>
                   <span className="text-sm font-bold italic">
                     {country}
                   </span>
-                  <span className="text-xs text-[#cccccc]">{mobileLabel}</span>
+                  <span className="text-xs text-[var(--muted)]">{mobileLabel}</span>
                 </div>
               )}
               {hasCities && expanded && (
@@ -70,15 +70,15 @@ const CountriesStat = ({ onCityClick, selectedCity }: ICountriesStatProps) => {
                         type="button"
                         className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-left text-sm transition-colors ${
                           selected
-                            ? 'border-[#e0ed5e] bg-[#e0ed5e] font-semibold text-[#1a1a1a]'
-                            : 'border-[#e0ed5e]/25 bg-[#252525] text-[#f4f4f4] hover:border-[#e0ed5e]/60 hover:bg-[#303030]'
+                            ? 'border-[rgb(var(--accent-rgb))] bg-[rgb(var(--accent-rgb))] font-semibold text-[var(--on-accent)]'
+                            : 'border-[rgb(var(--accent-rgb))]/25 bg-[var(--surface)] text-[var(--ink)] hover:border-[rgb(var(--accent-rgb))]/60 hover:bg-[var(--surface)]'
                         }`}
                         onClick={() => onCityClick(city)}
                       >
                         <span>{city}</span>
                         <span
                           className={`text-xs ${
-                            selected ? 'text-[#1a1a1a]' : 'text-[#cccccc]'
+                            selected ? 'text-[var(--on-accent)]' : 'text-[var(--muted)]'
                           }`}
                         >
                           {(cityDistance / 1000).toFixed(0)} KM

@@ -1,8 +1,10 @@
+import { useTheme } from '@/hooks/useTheme';
 import { Link } from 'react-router-dom';
 import { ReactNode } from 'react';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
 
 const Header = ({ actions }: { actions?: ReactNode }) => {
+  const { theme, toggleTheme } = useTheme();
   const { logo, siteUrl, navLinks } = useSiteMetadata();
 
   return (
@@ -17,13 +19,14 @@ const Header = ({ actions }: { actions?: ReactNode }) => {
                 src={logo}
               />
             </picture>
-            <span className="text-xl font-bold italic text-[#e0ed5e] lg:text-2xl">
+            <span className="text-xl font-bold italic text-[rgb(var(--accent-rgb))] lg:text-2xl">
               Scond
             </span>
           </Link>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-2 text-right lg:gap-4">
           {actions}
+          <button type="button" className="theme-toggle" onClick={toggleTheme} aria-label={theme === 'dark' ? '切换浅色模式' : '切换深色模式'}>{theme === 'dark' ? '浅色' : '深色'}</button>
           <div className="flex items-center gap-3 lg:gap-4">
             {navLinks.map((n, i) => (
               <a
