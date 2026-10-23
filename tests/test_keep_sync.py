@@ -8,6 +8,7 @@ local config and timezone imports before loading the real keep_sync module.
 import base64
 import copy
 import gzip
+import io
 import importlib.util
 import json
 from collections import namedtuple
@@ -17,6 +18,7 @@ import sys
 import types
 import unittest
 from unittest.mock import Mock, patch
+from contextlib import redirect_stdout
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
@@ -63,6 +65,36 @@ def activity(route):
 
 
 class KeepSyncTests(unittest.TestCase):
+    def setUp(self):
+        # Expected fixture failures should not resemble production sync errors.
+        output = redirect_stdout(io.StringIO())
+        output.__enter__()
+        self.addCleanup(output.__exit__, None, None, None)
+
+    def test_untimed_heart_rate_samples_are_skipped(self):
+        samples = [{"beatsPerMinute": 130}, {"timestamp": None, "beatsPerMinute": 140},
+                   {"timestamp": "invalid", "beatsPerMinute": 150},
+                   {"timestamp": 100, "beatsPerMinute": 145}]
+        self.assertEqual(keep.find_nearest_hr(samples, 100, 0), 145)
+        self.assertIsNone(keep.find_nearest_hr(samples[:3], 100, 0))
+
+    def test_indoor_run_with_untimed_heart_rate_keeps_metrics(self):
+        record = activity(encode_route([
+            {"latitude": 30.0, "longitude": 120.0, "timestamp": 100},
+        ]))
+        record["data"]["dataType"] = "indoorRunning"
+        samples = [{"beatsPerMinute": 130}, {"timestamp": None, "beatsPerMinute": 140}]
+        record["data"]["heartRate"]["heartRates"] = base64.b64encode(
+            gzip.compress(json.dumps(samples).encode())
+        ).decode()
+        with patch.object(keep, "download_keep_gpx") as download:
+            track = self.parse(record)
+        self.assertEqual(track.type, "VirtualRun")
+        self.assertEqual(track.distance, 5000)
+        self.assertEqual(track.average_heartrate, 140)
+        self.assertEqual(track.moving_time, timedelta(minutes=30))
+        download.assert_not_called()
+
     def test_candidate_audit_preserves_filter_and_hides_private_details(self):
         response = Mock(ok=True)
         response.json.return_value = {"data": {"lastTimestamp": 0, "records": [

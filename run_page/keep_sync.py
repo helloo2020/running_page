@@ -327,7 +327,12 @@ def find_nearest_hr(
         ) / 100  # note that the unit of target_time is decisecond and the unit of start_time is normal millisecond
 
     for item in hr_data_list:
-        timestamp = item["timestamp"]
+        # Some Keep indoor sessions contain heart-rate samples without a time.
+        # They cannot be attached to a route point; the activity's separately
+        # supplied average heart rate remains valid and is preserved above.
+        timestamp = item.get("timestamp")
+        if not isinstance(timestamp, (int, float)):
+            continue
         difference = abs(timestamp - target_time)
 
         if difference <= threshold and difference < min_difference:
