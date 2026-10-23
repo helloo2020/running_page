@@ -35,3 +35,9 @@ Keep this lightweight. Move only selected work into `.ai/CURRENT.md` when Tim co
 - Name: Provider support review
   - Description: Revisit additional activity providers only if Tim has a real data source and clear value.
   - Status: Proposed
+
+
+## 2026-10-23 · Follow-up found during journal validation
+
+- Resolved during the 2026-10-23 journal release: RunMap filter tuples, YearStat formatted elevation variable, and imported world GeoJSON type now pass the full TypeScript check. Rendering and activity data are unchanged.
+- Review legacy summary Run-only aggregation versus journal Run + VirtualRun; avoid silently changing historical metric definitions as part of layout work.

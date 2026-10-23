@@ -52,7 +52,7 @@ const YearStat = ({ year, onClick, compact = false }: IYearStatProps) => {
     }
   });
   sumDistance = parseFloat((sumDistance / 1000.0).toFixed(1));
-  sumElevationGain = (sumElevationGain).toFixed(0);
+  const formattedElevationGain = sumElevationGain.toFixed(0);
   const avgPace = formatPace(totalMetersAvail / totalSecondsAvail);
   const hasHeartRate = !(heartRate === 0);
   const avgHeartRate = (heartRate / (runs.length - heartRateNullCount)).toFixed(
@@ -102,7 +102,7 @@ const YearStat = ({ year, onClick, compact = false }: IYearStatProps) => {
         <Stat value={year} description=" Journey" />
         <Stat value={runs.length} description=" Runs" />
         <Stat value={sumDistance} description=" KM" />
-        {SHOW_ELEVATION_GAIN && <Stat value={sumElevationGain} description=" Elevation Gain" />}
+        {SHOW_ELEVATION_GAIN && <Stat value={formattedElevationGain} description=" Elevation Gain" />}
         <Stat value={avgPace} description=" Avg Pace" />
         <Stat value={`${streak} day`} description=" Streak" />
         {hasHeartRate && (

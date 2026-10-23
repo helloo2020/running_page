@@ -45,3 +45,23 @@ Local preview decision: keep MapLibre/Recharts and the existing public data pipe
 ## 2026-10-23 · Calendar feedback supersedes collapsed route default
 
 Tim explicitly chose vivid original distance colors and initially expanded long-distance routes. Keep the React calendar with latest-year default plus an explicit all-years view, and place selected-day feedback beside its year. Summary remains a simple chronological archive, with six groups per page and segmented period selection. This supersedes the earlier muted calendar and collapsed/on-demand route default; source SVG/data generation stays unchanged.
+
+
+## 2026-10-23 · Split overview and per-activity journal
+
+After evaluating the ambiguous map/year/table interaction, Tim approved independent 足迹 / 日志 / 统计 roles. The journal uses URL-backed year/month/day/place filters, ten entries per page, responsive single-line records and explicit detail navigation. Overview shows approximate places, single selected records show route outlines. Preserve the local privacy-friendly map stack rather than adding third-party street tiles. Run and VirtualRun are both running entries for journal completeness. Existing summary aggregation remains unchanged in this scope; review its legacy Run-only count separately.
+
+
+## 2026-10-23 · Journal all-years and complementary map views
+
+Tim requested all years by default, clear filtering, distance categories and the previously arranged GPS sketches. Retain geographic overview and add paginated route sketches as complementary views rather than replacing geography. Use the existing public decoded summary paths only; independent sketch scale is labelled. Place count must match its filtered list, including records without GPS when the place is known. Distance mode groups measured distances into exhaustive non-overlapping bands rather than exact-distance equality or race-title classification. This supersedes the prior latest-year journal default, not the calendar default. No new Production release authorization.
+
+
+## 2026-10-23 · Overlaid map replaces journal sketches
+
+Tim explicitly corrected the interpretation of GPS route display: one geographic map with all selected tracks overlaid, default all years, filtered by year selection. Remove the journal sketch gallery and its styles. Keep the same public paths and MapLibre geography. Fit combined path bounds, render all matching routes independently of list pagination, and split long paths into overlapping vertex chunks solely to stay within GPU segment limits without dropping source points. No data or deployment changes.
+
+
+## 2026-10-23 · Running-specific sunlight orange
+
+Tim approved the displayed orange mock, including an orange Scond wordmark. Keep the shared cross-site structure/typography while giving running its own energetic accent. Separate vivid graphic/brand orange from darker text orange for legibility, keep map fills quiet, and preserve calendar distance colors. LogMap and RunMap now share a small mapPalette utility because MapLibre requires literal colors. No new dependencies, data pipeline or backend changes.

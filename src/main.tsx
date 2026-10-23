@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Index from './pages';
+import ActivityLog from './pages/log';
 import NotFound from './pages/404';
 import ReactGA from 'react-ga4';
 import {
@@ -11,7 +12,7 @@ import {
 } from './utils/const';
 import '@/styles/index.css';
 import { withOptionalGAPageTracking } from './utils/trackRoute';
-import HomePage from "@/pages/total";
+import HomePage from '@/pages/total';
 
 if (USE_GOOGLE_ANALYTICS) {
   ReactGA.initialize(GOOGLE_ANALYTICS_TRACKING_ID);
@@ -22,6 +23,10 @@ const routes = createBrowserRouter(
     {
       path: '/',
       element: withOptionalGAPageTracking(<Index />),
+    },
+    {
+      path: 'log',
+      element: withOptionalGAPageTracking(<ActivityLog />),
     },
     {
       path: 'summary',

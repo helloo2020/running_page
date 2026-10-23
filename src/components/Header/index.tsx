@@ -15,6 +15,7 @@ const Header = () => {
         <NavLink to="/" end>
           足迹
         </NavLink>
+        <NavLink to="/log">日志</NavLink>
         <NavLink to="/summary">统计</NavLink>
         <a href="https://blog.scond.me/" target="_self">
           文章

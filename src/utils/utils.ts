@@ -258,7 +258,10 @@ const geoJsonForRuns = (runs: Activity[]): FeatureCollection<LineString> => ({
 
 const geoJsonForMap = (): FeatureCollection<RPGeometry> => ({
   type: 'FeatureCollection',
-  features: worldGeoJson.features.concat(chinaGeojson.features),
+  features: [
+    ...(worldGeoJson as FeatureCollection<RPGeometry>).features,
+    ...chinaGeojson.features,
+  ],
 })
 
 const getActivitySport = (act: Activity): string => {

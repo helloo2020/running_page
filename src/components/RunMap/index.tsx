@@ -1,4 +1,5 @@
 import { useTheme } from '@/hooks/useTheme';
+import { getMapPalette } from '@/utils/mapPalette';
 import React, {
   useRef,
   useCallback,
@@ -13,7 +14,7 @@ import Map, {
   NavigationControl,
   MapRef,
 } from 'react-map-gl/maplibre';
-import type { Map as MapLibreMap } from 'maplibre-gl';
+import type { Map as MapLibreMap, FilterSpecification } from 'maplibre-gl';
 import useActivities from '@/hooks/useActivities';
 import {
   USE_DASH_LINE,
@@ -53,14 +54,7 @@ const MAP_STYLE = {
 
 const RunMap = ({ title, viewState, setViewState, geoData }: IRunMapProps) => {
   const { theme } = useTheme();
-  const dark = theme === 'dark';
-  const mapColors = {
-    background: dark ? '#1c2521' : '#f3f5f1',
-    visited: dark ? '#6f9380' : '#769386',
-    border: dark ? '#37483e' : '#c5cec5',
-    land: dark ? '#2b3830' : '#e4e9e1',
-    route: dark ? '#e2b48d' : '#a44922',
-  };
+  const mapColors = getMapPalette(theme);
   const mapStyle = useMemo(
     () => ({
       ...MAP_STYLE,
@@ -68,11 +62,11 @@ const RunMap = ({ title, viewState, setViewState, geoData }: IRunMapProps) => {
         {
           id: 'background',
           type: 'background' as const,
-          paint: { 'background-color': dark ? '#1c2521' : '#f3f5f1' },
+          paint: { 'background-color': mapColors.background },
         },
       ],
     }),
-    [dark]
+    [mapColors]
   );
   const { countries, provinces } = useActivities();
   const mapRef = useRef<MapRef>();
@@ -109,11 +103,8 @@ const RunMap = ({ title, viewState, setViewState, geoData }: IRunMapProps) => {
     },
     [mapRef, lights]
   );
-  const filterProvinces = provinces.slice();
-  const filterCountries = countries.slice();
-  // for geojson format
-  filterProvinces.unshift('in', 'name');
-  filterCountries.unshift('in', 'name');
+  const filterProvinces: FilterSpecification = ['in', 'name', ...provinces];
+  const filterCountries: FilterSpecification = ['in', 'name', ...countries];
 
   const isBigMap = (viewState.zoom ?? 0) <= 3;
 
@@ -171,7 +162,7 @@ const RunMap = ({ title, viewState, setViewState, geoData }: IRunMapProps) => {
       renderWorldCopies={false}
       ref={mapRefCallback}
     >
-      {isBigMap && (
+      {
         <Source id="geography" type="geojson" data={geoJsonForMap()}>
           <Layer
             id="land"
@@ -209,7 +200,7 @@ const RunMap = ({ title, viewState, setViewState, geoData }: IRunMapProps) => {
             layout={{ 'line-join': 'round', 'line-cap': 'round' }}
           />
         </Source>
-      )}
+      }
       <Source id="data" type="geojson" data={geoData}>
         <Layer
           id="runs2"

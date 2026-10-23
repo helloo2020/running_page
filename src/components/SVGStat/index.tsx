@@ -138,7 +138,7 @@ const CalendarYear = ({
               className="text-button"
               onClick={() => locateActivity(selected.ids)}
             >
-              查看路线 ↗
+              查看日志 ↗
             </button>
           </>
         )}

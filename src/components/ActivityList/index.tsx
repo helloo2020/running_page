@@ -205,7 +205,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
                 />
                 <Bar
                   dataKey="distance"
-                  fill="var(--accent)"
+                  fill="var(--accent-vivid)"
                   radius={[3, 3, 0, 0]}
                   maxBarSize={20}
                   isAnimationActive={false}
