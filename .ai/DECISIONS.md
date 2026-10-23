@@ -29,3 +29,7 @@ Decision: Do not run destructive data cleanup commands without explicit confirma
 Reason: The project contains local generated activity outputs and a SQLite database that may be difficult to recreate safely.
 
 Impact: Commands such as `pnpm run clean` and `pnpm run data:clean` require explicit Tim confirmation before execution.
+
+## 2026-10-23 · Untimed indoor heart-rate samples cannot invalidate a run
+
+The release audit found a second malformed-input case on the reported indoor activity: individual heart-rate samples can omit their timestamp. Ignore those samples for attaching heart rate to GPS points while preserving Keep's separately reported average and all valid activity facts. Preserve the existing doubtful-activity filter. Real workflow, cloud snapshot and authenticated home verification are required before declaring this incident fixed; an older recovered activity or successful scheduler invocation alone is insufficient.

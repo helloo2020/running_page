@@ -2,12 +2,14 @@
 
 Last updated: 2026-10-23
 
-## 2026-10-23 · Keep empty-route sync repair (local candidate)
+## 2026-10-23 · Keep sync repair released and verified
 
-- Tim reported that yesterday's run was missing from the TimOS home module. Read-only checks confirmed that both upstream scheduling and the TimOS 06:00 import were enabled and ran. The upstream log showed one new Keep activity skipped by an index error while the workflow still reported success.
-- The outdoor GPX path assumed an encoded route contained at least one decoded point. The parser now preserves activity metrics when the decoded route is empty, without inventing route or elevation data. Batch parsing errors and unusable duration now fail the sync before writing the database/activities JSON instead of silently returning success.
-- Added seven synthetic, offline regression cases covering missing/encoded-empty/valid routes, batch inclusion, malformed routes, invalid duration, and no data overwrite on collection failure. The existing Keep workflow runs these before real sync. No secrets or personal records were used in tests.
-- Local verification passed. Upstream push, workflow execution, existing public running-page updates, and TimOS cloud catch-up remain pending explicit release authorization. No production settings or data have been changed by this repair.
+- Tim explicitly authorized releasing the running sync repair and catching up the existing public running page and TimOS cloud snapshot. Only `run-scond-me` is linked to this upstream repository; TimOS app/server code, Life, credentials, permissions and schedules were not changed.
+- Initial logs identified a silently skipped empty-route activity. The empty-route fix recovered an older historical activity; it did not yet resolve the reported missing recent run. A freshness audit then confirmed that the intended indoor run was returned and accepted by Keep, but some heart-rate samples lacked `timestamp`, causing another swallowed parsing error. Do not mistake the older empty-route failure for the complete incident cause.
+- Empty decoded routes now retain valid activity metrics without generating GPS/elevation data. Untimed heart-rate samples are skipped for point attachment, preserving the separately supplied activity average. Batch parse failures abort before database/JSON persistence instead of reporting success. Doubtful-record filtering is unchanged.
+- Ten synthetic offline regressions pass locally and in the production workflow; previous source reproduces both the empty-route index error and indoor heart-rate missing-key error. Tests hide expected fixture errors from production logs. The existing workflow runs them before Keep sync, and emits only candidate freshness/filter summaries without credentials or coordinates.
+- Released code commits: `9451fde`, `ae4da99`, `5549c5d`; existing sync generated `353f764` and `6cc4a55`. Final Run `39885893507` succeeded, including GitHub Pages build/deploy. The run-scond-me production deployment for the recovered data is `dpl_GBv426vAmpLnwrq3mVDfzoUaQYEL`, READY. Previous deployments remain available for rollback.
+- Used the verified TimOS project's existing `/api/sync-running?cron=1` job to catch up, without reading its secret. Read-only database verification confirmed the intended recent indoor activity; Chrome's authenticated TimOS home visibly updated its last-run date and summaries. The original regular schedule remains enabled. No real raw activity payloads, account details, secrets or generated data were manually added to the repair commits.
 
 ## Active Sprint
 
