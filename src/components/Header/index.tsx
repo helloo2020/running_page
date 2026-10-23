@@ -32,7 +32,8 @@ const Header = ({ actions }: { actions?: ReactNode }) => {
               <a
                 key={i}
                 href={n.url}
-                className="min-h-[44px] content-center text-base lg:min-h-0"
+                target="_self"
+                className={n.name === '主页' ? 'theme-toggle content-center text-sm' : 'min-h-[44px] content-center text-base lg:min-h-0'}
               >
                 {n.name}
               </a>

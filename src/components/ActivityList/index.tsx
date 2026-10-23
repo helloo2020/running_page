@@ -224,8 +224,9 @@ const ActivityList: React.FC = () => {
                     className={styles.smallHomeButton}
                     onClick={() => navigate('/')}
                 >
-                    Home
+                    跑步首页
                 </button>
+                <a href="https://scond.me/" target="_self" className={styles.smallHomeButton}>主页</a>
                 <select
                     onChange={(e) => toggleInterval(e.target.value as IntervalType)}
                     value={interval}

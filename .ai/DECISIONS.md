@@ -30,3 +30,8 @@ Impact: Commands such as `pnpm run clean` and `pnpm run data:clean` require expl
 ## 2026-10-23 · Shared Scond palette
 
 Use homepage palette version `scond-palette-2026-10-23` in local theme definitions, keeping each project's existing framework and content structure. Default to light and preserve explicit dark preference in each origin independently. Charts, maps and share images participate in the same theme; semantic multi-series colors and source photographs remain distinct. No cross-domain theme service, dependency upgrade or backend/schema changes. Production publication requires separate explicit authorization.
+
+
+## 2026-10-23 · Same-tab navigation and home return
+
+Tim approved same-tab navigation between scond.me, blog.scond.me, read.scond.me and run.scond.me. Keep explicit visible `主页` links to https://scond.me/ on subsite primary surfaces and standalone reading shares; preserve them on narrow viewports. Keep `首页`/`跑步首页` scoped to their own subsite so return targets stay unambiguous. This does not merge apps or expand data permissions. Formal Production publication was authorized in this chat.
