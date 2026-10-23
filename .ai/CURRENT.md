@@ -1,6 +1,13 @@
 # Current State
 
-Last updated: 2026-07-03
+Last updated: 2026-10-23
+
+## 2026-10-23 · Keep empty-route sync repair (local candidate)
+
+- Tim reported that yesterday's run was missing from the TimOS home module. Read-only checks confirmed that both upstream scheduling and the TimOS 06:00 import were enabled and ran. The upstream log showed one new Keep activity skipped by an index error while the workflow still reported success.
+- The outdoor GPX path assumed an encoded route contained at least one decoded point. The parser now preserves activity metrics when the decoded route is empty, without inventing route or elevation data. Batch parsing errors and unusable duration now fail the sync before writing the database/activities JSON instead of silently returning success.
+- Added seven synthetic, offline regression cases covering missing/encoded-empty/valid routes, batch inclusion, malformed routes, invalid duration, and no data overwrite on collection failure. The existing Keep workflow runs these before real sync. No secrets or personal records were used in tests.
+- Local verification passed. Upstream push, workflow execution, existing public running-page updates, and TimOS cloud catch-up remain pending explicit release authorization. No production settings or data have been changed by this repair.
 
 ## Active Sprint
 

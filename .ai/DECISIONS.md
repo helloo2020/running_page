@@ -1,5 +1,9 @@
 # Decision Log
 
+## 2026-10-23 · Preserve runs with empty decoded GPS and fail incomplete syncs
+
+Tim requested a fix for missing runs in TimOS. Keep may supply an encoded route that decodes to an empty list; date/distance/duration remain valid facts and should be imported without a fabricated route or elevation. Parsing failures must abort before database/JSON persistence so the scheduler cannot silently label incomplete imports successful. Tests use synthetic activity payloads and replace local configuration/database imports to avoid personal data or account access. Release and real sync remain separate authorized actions.
+
 Append only. Format: date, decision, reason, impact.
 
 ## 2026-07-03

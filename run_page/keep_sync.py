@@ -140,7 +140,9 @@ def parse_raw_data_to_nametuple(
             p_hr = find_nearest_hr(decoded_hr_data, int(p["timestamp"]), start_time)
             if p_hr:
                 p["hr"] = p_hr
-        if run_data["dataType"].startswith("outdoor"):
+        # Keep can return an encoded but empty route. Keep the activity facts
+        # without generating a GPX or estimating elevation from missing points.
+        if run_points_data_gpx and run_data["dataType"].startswith("outdoor"):
             gpx_data = parse_points_to_gpx(
                 run_points_data_gpx, start_time, KEEP2STRAVA[run_data["dataType"]]
             )
@@ -193,6 +195,7 @@ def get_all_keep_tracks(
     s = requests.Session()
     s, headers = login(s, email, password)
     tracks = []
+    failed_runs = 0
     for api in keep_sports_data_api:
         runs = get_to_download_runs_ids(s, headers, api)
         runs = [run for run in runs if run.split("_")[1] not in old_tracks_ids]
@@ -206,9 +209,14 @@ def get_all_keep_tracks(
                 track = parse_raw_data_to_nametuple(
                     run_data, old_gpx_ids, s, with_download_gpx
                 )
+                if track is None:
+                    raise ValueError("Keep activity has no usable duration")
                 tracks.append(track)
             except Exception as e:
+                failed_runs += 1
                 print(f"Something wrong paring keep id {run}" + str(e))
+    if failed_runs:
+        raise RuntimeError(f"Failed to parse {failed_runs} Keep activities; sync aborted")
     return tracks
 
 
