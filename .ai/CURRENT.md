@@ -80,3 +80,13 @@ Tim requested a full desktop/mobile polish after palette alignment, particularly
 ## 2026-10-23 · Public display name
 
 Tim requested all visible Tim labels on the running site use Scond. The shared SVG renderer replaces the standalone name in generated chart text, covering route mosaic, month-of-life and legacy calendars without modifying generated source assets or activity data. Vite build, focused ESLint/Prettier passed; browser verified both route and month-of-life labels read Scond with no visible Tim matches. Preview http://127.0.0.1:5193/. No push or Production release.
+
+
+## 2026-10-23 · Running visual refinement · Production release
+
+Tim explicitly requested formal publication after reviewing the visual refinement, all-years/vivid calendar, default-open long routes, summary pagination/segments and Scond display name. Published all three scoped frontend commits (6ee04d7, 35d0e45, a00493e) against the last reviewed Production data/assets.
+
+- Production deployment: `dpl_D2GYL9ddDdKH5wZQGBMRYHmnYhPY`, READY, https://run-scond-83i7ozfp9-zenjurygmailcoms-projects.vercel.app, aliased https://run.scond.me/; original project `prj_vRMznol05XSKfeNIYpz3XIlIoCsh` / team `team_E9Gcxmx5eLAWc9AYaxCbzoYQ`. Previous deployment/rollback reference `dpl_3YVJLQoXVVRavypVA2j53H8Tyi9d`. Vercel connector confirmed alias and READY after CLI upload. No Git push.
+- Isolated source `/private/tmp/run-polish-release-20261023`; uploaded only 26 reviewed static build/config files in `/private/tmp/run-polish-upload-20261023`, manifest `/private/tmp/run-polish-upload-manifest.json`. Existing visit-counter script restored from previous release. No source data, credentials, environment files, dependency folders, backups or notes uploaded. Existing public compiled activities hash `b0c4ba86ff4147780dc2a4ef54dabb00e8f48f0319d7ac1128fb67f9201f44ca` matched a fresh download from current Production before release. Generated SVG assets unchanged. Local older repository activity snapshot was not deployed.
+- Release build passed; existing Browserslist-age/bundle-size warnings remain. Live browser verified default 2026, all ten calendar years, routes open, Scond SVG name, six summary groups/page, next page, reset on period switch, month-of-life name, dark toggle, no page overflow at 320/390/1280px and no JavaScript page exceptions. Only console resource errors were the deliberately blocked visit-counter script to avoid inflating counts during testing. Physical devices not newly tested. Screenshots `/private/tmp/run-live-release-calendar.png` and `/private/tmp/run-live-release-summary.png`.
+- Source repository retains unrelated pre-existing CURRENT notes unstaged. Homepage, reading and blog were not deployed in this release.
