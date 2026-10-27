@@ -1,3 +1,9 @@
+## 2026-10-27 · Hidden cross-site analytics · Local preparation
+
+- Tim requested a first version of invisible analytics and weekly/monthly reports across the four public Scond sites. Replaced this site’s visible cumulative counter with the shared, route-aware `https://scond.me/analytics.js`; homepage repository owns the collection/report APIs, SQL installer, privacy rules and report generator
+- Local/preview/private hosts do not submit events. Only allowlisted public page categories are sent; queries, fragments, book IDs, share tokens, settings/account pages, IP, referrers and browser fingerprints are excluded. Random first-party browser IDs expire after 90 days and become per-site server HMACs; estimates are not cross-site deduplicated people
+- Existing unrelated work was preserved. No production publication, database changes, new provider or scheduled sending is authorized by this local version. Validation passed: this site’s isolated build, all 31 central regression/SQL checks, and a locally intercepted browser roundtrip through page → collection API → PostgreSQL → authenticated report. Old counter requests/visible figures are absent; private Reading share tokens/query strings were excluded. No physical Safari, Production ingestion or scheduled delivery was tested
+
 # Current State
 
 Last updated: 2026-07-03
