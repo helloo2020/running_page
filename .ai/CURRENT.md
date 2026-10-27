@@ -1,3 +1,9 @@
+## 2026-10-27 · Hidden analytics · Production activation
+
+- Tim explicitly requested formal startup. Production reference `dpl_DM4dE3CX9QywmAB7NagLyFnSV8iu`; rollback `dpl_PvPXQhm5VeQiBgwrp1BTwCgbu4Za`. Only this site’s analytics integration was released over its exact latest published baseline; unrelated local work and public content were preserved
+- Four-site collection and private cloud Gmail week/month delivery are active. Monday09:00 and last calendar day16:00 Asia/Shanghai; month-end reports cover the current month through16:00. The owner-only cloud plan verified data access and actually sent the activation email with HTML attachment. Recipient/credentials/mail receipts remain out of Git
+- Central checks: all34 tests and typechecks passed; isolated builds passed; live public scripts and actual four-site event ingestion verified. Reading/Home/Running complete deployed-file inventories match reviewed plans; Blog Pages built with only the footer source changed and latest public posts retained. Daily180-day event-only retention was separately approved. No extra paid provider. Detailed private plan and source live in the homepage repo `docs/analytics.md`
+
 ## 2026-10-27 · Hidden cross-site analytics · Local preparation
 
 - Tim requested a first version of invisible analytics and weekly/monthly reports across the four public Scond sites. Replaced this site’s visible cumulative counter with the shared, route-aware `https://scond.me/analytics.js`; homepage repository owns the collection/report APIs, SQL installer, privacy rules and report generator
