@@ -65,3 +65,10 @@ Tim explicitly corrected the interpretation of GPS route display: one geographic
 ## 2026-10-23 · Running-specific sunlight orange
 
 Tim approved the displayed orange mock, including an orange Scond wordmark. Keep the shared cross-site structure/typography while giving running its own energetic accent. Separate vivid graphic/brand orange from darker text orange for legibility, keep map fills quiet, and preserve calendar distance colors. LogMap and RunMap now share a small mapPalette utility because MapLibre requires literal colors. No new dependencies, data pipeline or backend changes.
+
+
+## 2026-11-06 · 当前状态与历史交付分离
+
+仅整理文档和只读核对：CURRENT 保留有效状态，原 CURRENT（含已有未提交改动）与旧 BACKLOG 完整移入 [归档](archive/2026-11-06-state-history.md)。README/PROJECT 只指向当前事实源，历史发布与测试不作本轮通过声明。
+
+[现场核对](archive/2026-11-06-reconciliation.md)确认恢复数据的 Git 部署已替换先前隔离前端发布；本地与公开远端分叉，不直接对齐或推送。此记录不授权修复、发布、同步、修改 TimOS 或改变部署关系。后续操作仍按当前明确授权分别判断。

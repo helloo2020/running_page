@@ -1,43 +1,10 @@
-# Backlog
+# 候选待办
 
-Keep this lightweight. Move only selected work into `.ai/CURRENT.md` when Tim confirms it belongs to the active sprint.
+只保留有效、未实施的候选项；均未排期，不代表实施授权。已开发但待重新整合／发布、自然排程待验和手机验收统一见 [CURRENT](CURRENT.md)，不混在开发候选中。旧待办及去向见 [核对记录](archive/2026-11-06-reconciliation.md)。
 
-## P0
-
-- Name: Privacy review
-  - Description: Review which generated files and UI states expose GPS routes, cities, activity times, and heart-rate data.
-  - Status: Proposed
-
-- Name: Baseline build check
-  - Description: Run `pnpm run build` and record whether the current app builds cleanly before new feature work.
-  - Status: Proposed
-
-## P1
-
-- Name: Minimal frontend smoke validation
-  - Description: Add or document a small validation path for the main page so future UI edits can be checked quickly.
-  - Status: Proposed
-
-- Name: CI staging safety
-  - Description: Review the GitHub Actions `git add .` step and consider narrowing generated-file staging if it causes noisy or risky commits.
-  - Status: Proposed
-
-- Name: Map/privacy settings cleanup
-  - Description: Clarify `PRIVACY_MODE`, lights mode, map fallback behavior, and whether Tim wants public map details.
-  - Status: Proposed
-
-## P2
-
-- Name: Upstream sync policy
-  - Description: Decide whether this fork should track upstream `running_page` closely or prioritize Tim-specific stability.
-  - Status: Proposed
-
-- Name: Provider support review
-  - Description: Revisit additional activity providers only if Tim has a real data source and clear value.
-  - Status: Proposed
-
-
-## 2026-10-23 · Follow-up found during journal validation
-
-- Resolved during the 2026-10-23 journal release: RunMap filter tuples, YearStat formatted elevation variable, and imported world GeoJSON type now pass the full TypeScript check. Rendering and activity data are unchanged.
-- Review legacy summary Run-only aggregation versus journal Run + VirtualRun; avoid silently changing historical metric definitions as part of layout work.
+| 优先级 | 候选 | 最小范围与状态 |
+| --- | --- | --- |
+| P0 | 公开数据隐私复核 | 待评估：核对既有公开产物与页面暴露范围，明确隐私模式边界；不默认改数据或公开方式。 |
+| P1 | 固化前端烟测 | 待开发：将已有首页／日志／统计、窄屏及主题检查固化为可重复的仓库验证，使用虚构数据；此前临时 QA 不等于已保存的自动化。 |
+| P1 | CI 暂存安全 | 待开发：评估把工作流 `git add .` 缩至允许的生成路径；保留现有同步行为，不能借检查运行真实同步。 |
+| P2 | 上游跟进策略 | 待决策：明确与原始 `yihong0618/running_page` 上游的更新策略，优先维护 Scond 定制和稳定性；不同于 CURRENT 中已发生的本地／生产分离。 |

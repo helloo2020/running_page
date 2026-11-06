@@ -1,3 +1,9 @@
+# Scond 跑步项目入口
+
+本仓库服务于 [run.scond.me](https://run.scond.me/)。交付版本、同步状态、本地与生产差异及待验项统一见 [.ai/CURRENT.md](.ai/CURRENT.md)；维护规则见 [AGENTS.md](AGENTS.md)，候选任务见 [BACKLOG](.ai/BACKLOG.md)，历史证据见 [归档](.ai/archive/README.md)。
+
+下文保留上游通用教程和 TODO，不代表本站现状或操作授权。尤其不要据此直接 pull／推送／重导入数据；先核对 CURRENT 中的分支与部署边界。
+
 ## Note
 
 1. clone or Fork before vercel 404 need to pull the latest code
@@ -1236,7 +1242,7 @@ Actions [源码](https://github.com/yihong0618/running_page/blob/master/.github/
 
 如果发现自己的 fit 文件解析有问题。可以提 issue。
 
-# TODO
+# TODO（上游原始清单，本站候选见 [.ai/BACKLOG.md](.ai/BACKLOG.md)）
 
 - [x] 完善这个文档
 - [x] 支持佳明，佳明中国

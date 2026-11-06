@@ -1,5 +1,7 @@
 # Project Agent Rules
 
+Current delivery/deployment status lives in [.ai/CURRENT.md](.ai/CURRENT.md). Dated request/review sections below preserve historical requirements and authorization boundaries; their “local preview” descriptions are not current release status. See [.ai/archive/README.md](.ai/archive/README.md) for superseded status and evidence.
+
 Before development, read these files in order:
 
 1. `.ai/PROJECT.md`

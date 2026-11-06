@@ -10,17 +10,11 @@ This project is Tim's personal running homepage: a public, visual archive of run
 - Secondary users: visitors who view the public running page.
 - Maintainers: AI coding agents and Tim.
 
-## Current Version
+## Status And Scope
 
-- Upstream project: `running_page`, Python package version `2.5.1`.
-- Frontend package: `yihong.run`, version `1.0.0`.
-- Current branch: `master`.
-
-## Current Sprint
-
-Project onboarding and stabilization.
-
-Sprint rule: do not expand scope by default. Preserve the existing running page, keep personal data safe, and make only small, clearly valuable improvements until Tim defines a new sprint.
+- [CURRENT.md](CURRENT.md) is the single source for the live deployment, local/remote divergence, pending release work and acceptance gaps. Package versions are dependency/source identifiers, not deployed product versions.
+- [BACKLOG.md](BACKLOG.md) contains unimplemented candidates; [archive/README.md](archive/README.md) indexes completed work and superseded status. The original onboarding phase is historical.
+- Maintenance remains focused on a simple personal running homepage. Preserve existing behavior and data; Tim's current explicit task sets its priority. Do not infer new feature or deployment authorization from old sprint/release notes.
 
 ## Goals
 
@@ -45,7 +39,7 @@ Sprint rule: do not expand scope by default. Preserve the existing running page,
 - Data display: `src/static/activities.json`, generated SVG assets in `assets/`.
 - Sync/generation: Python scripts under `run_page/`, SQLite at `run_page/data.db`, GPX/TCX/FIT output folders.
 - Automation: GitHub Actions workflow `.github/workflows/run_data_sync.yml`.
-- Deployment: Vercel config exists, GitHub Pages workflow exists.
+- Deployment: Vercel serves `run.scond.me`; the sync workflow also publishes GitHub Pages. Git pushes can publish, so check the actual deployment relationship before any push; do not assume local HEAD matches Production.
 
 ## Data And Security
 
