@@ -1,5 +1,9 @@
 # Decision Log
 
+## 2026-10-23 · Preserve runs with empty decoded GPS and fail incomplete syncs
+
+Tim requested a fix for missing runs in TimOS. Keep may supply an encoded route that decodes to an empty list; date/distance/duration remain valid facts and should be imported without a fabricated route or elevation. Parsing failures must abort before database/JSON persistence so the scheduler cannot silently label incomplete imports successful. Tests use synthetic activity payloads and replace local configuration/database imports to avoid personal data or account access. Release and real sync remain separate authorized actions.
+
 Append only. Format: date, decision, reason, impact.
 
 ## 2026-07-03
@@ -72,3 +76,15 @@ Tim approved the displayed orange mock, including an orange Scond wordmark. Keep
 仅整理文档和只读核对：CURRENT 保留有效状态，原 CURRENT（含已有未提交改动）与旧 BACKLOG 完整移入 [归档](archive/2026-11-06-state-history.md)。README/PROJECT 只指向当前事实源，历史发布与测试不作本轮通过声明。
 
 [现场核对](archive/2026-11-06-reconciliation.md)确认恢复数据的 Git 部署已替换先前隔离前端发布；本地与公开远端分叉，不直接对齐或推送。此记录不授权修复、发布、同步、修改 TimOS 或改变部署关系。后续操作仍按当前明确授权分别判断。
+## 2026-10-23 · Untimed indoor heart-rate samples cannot invalidate a run
+
+The release audit found a second malformed-input case on the reported indoor activity: individual heart-rate samples can omit their timestamp. Ignore those samples for attaching heart rate to GPS points while preserving Keep's separately reported average and all valid activity facts. Preserve the existing doubtful-activity filter. Real workflow, cloud snapshot and authenticated home verification are required before declaring this incident fixed; an older recovered activity or successful scheduler invocation alone is insufficient.
+
+## 2026-10-23 · Reproducible CI checks with synthetic GPX data
+
+Pin Black/Ruff and explicitly target Python 3.11 formatting across the supported CI matrix. Run static checks and Keep regressions before the GPX smoke test. The GPX check uses the real parser, SQLite persistence and JSON generation in a disposable code-only copy, with synthetic coordinates and a stubbed reverse geocoder; assert output facts and repeat-run deduplication instead of rescanning personal activity data or relying on external geocoding. Production sync behavior and notification settings remain unchanged.
+
+
+## 2026-11-06 · 新版界面与同步源码统一
+
+Tim 明确要求立即恢复被今日同步 Git 部署覆盖的 UI。恢复原已发布的日志、橙色主题、统计口径与分析接入，并将其合并进原 master，同步流程后续构建相同界面。保留 master 上最新数据与 Keep/CI 修复。以真实正式页面和数据共同验收。

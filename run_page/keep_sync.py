@@ -53,6 +53,8 @@ def login(session, mobile, password):
 def get_to_download_runs_ids(session, headers, sport_type):
     last_date = 0
     result = []
+    inspected_latest = False
+    excluded_count = 0
 
     while 1:
         r = session.get(
@@ -64,6 +66,29 @@ def get_to_download_runs_ids(session, headers, sport_type):
 
             for i in run_logs:
                 logs = [j["stats"] for j in i["logs"]]
+                if logs and not inspected_latest:
+                    # Report only the newest candidate's date/filter outcome,
+                    # never account details, credentials or GPS coordinates.
+                    newest = logs[0]
+                    detail = get_single_run_data(
+                        session, headers, newest["id"], sport_type
+                    )
+                    data = (detail or {}).get("data") or {}
+                    timestamp = data.get("startTime")
+                    latest_date = (
+                        datetime.fromtimestamp(
+                            timestamp / 1000, tz=timezone.utc
+                        ).isoformat()
+                        if isinstance(timestamp, (int, float))
+                        else "unavailable"
+                    )
+                    print(
+                        f"Keep newest candidate: start_utc={latest_date} "
+                        f"type={data.get('dataType', 'unavailable')} "
+                        f"doubtful={bool(newest.get('isDoubtful'))}"
+                    )
+                    inspected_latest = True
+                excluded_count += sum(bool(k["isDoubtful"]) for k in logs)
                 result.extend(k["id"] for k in logs if not k["isDoubtful"])
             last_date = r.json()["data"]["lastTimestamp"]
             since_time = datetime.fromtimestamp(last_date / 1000, tz=timezone.utc)
@@ -71,6 +96,9 @@ def get_to_download_runs_ids(session, headers, sport_type):
             time.sleep(1)  # spider rule
             if not last_date:
                 break
+    print(
+        f"Keep candidate totals: accepted={len(result)} doubtful_excluded={excluded_count}"
+    )
     return result
 
 
@@ -140,7 +168,9 @@ def parse_raw_data_to_nametuple(
             p_hr = find_nearest_hr(decoded_hr_data, int(p["timestamp"]), start_time)
             if p_hr:
                 p["hr"] = p_hr
-        if run_data["dataType"].startswith("outdoor"):
+        # Keep can return an encoded but empty route. Keep the activity facts
+        # without generating a GPX or estimating elevation from missing points.
+        if run_points_data_gpx and run_data["dataType"].startswith("outdoor"):
             gpx_data = parse_points_to_gpx(
                 run_points_data_gpx, start_time, KEEP2STRAVA[run_data["dataType"]]
             )
@@ -193,6 +223,7 @@ def get_all_keep_tracks(
     s = requests.Session()
     s, headers = login(s, email, password)
     tracks = []
+    failed_runs = 0
     for api in keep_sports_data_api:
         runs = get_to_download_runs_ids(s, headers, api)
         runs = [run for run in runs if run.split("_")[1] not in old_tracks_ids]
@@ -206,9 +237,16 @@ def get_all_keep_tracks(
                 track = parse_raw_data_to_nametuple(
                     run_data, old_gpx_ids, s, with_download_gpx
                 )
+                if track is None:
+                    raise ValueError("Keep activity has no usable duration")
                 tracks.append(track)
             except Exception as e:
+                failed_runs += 1
                 print(f"Something wrong paring keep id {run}" + str(e))
+    if failed_runs:
+        raise RuntimeError(
+            f"Failed to parse {failed_runs} Keep activities; sync aborted"
+        )
     return tracks
 
 
@@ -300,7 +338,12 @@ def find_nearest_hr(
         ) / 100  # note that the unit of target_time is decisecond and the unit of start_time is normal millisecond
 
     for item in hr_data_list:
-        timestamp = item["timestamp"]
+        # Some Keep indoor sessions contain heart-rate samples without a time.
+        # They cannot be attached to a route point; the activity's separately
+        # supplied average heart rate remains valid and is preserved above.
+        timestamp = item.get("timestamp")
+        if not isinstance(timestamp, (int, float)):
+            continue
         difference = abs(timestamp - target_time)
 
         if difference <= threshold and difference < min_difference:
